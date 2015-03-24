@@ -1,0 +1,40 @@
+html, body {
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px;
+}
+
+#loading-bar {
+  margin-bottom: 13px;
+}
+
+#loading-bar.ng-hide {
+  visibility: hidden;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+#left-nav .md-button {
+  text-align: left;
+}
+
+#left-nav .md-button > span {
+  margin-left: 8px;
+  font-size: 16px;
+}
+
+#left-nav .md-font {
+  display: block;
+  min-width: 24px;
+  text-align: center;
+  font-size: 18px;
+}

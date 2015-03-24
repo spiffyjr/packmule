@@ -1,0 +1,24 @@
+<md-content class="md-padding">
+    <div ng-if="::Platform.isChrome()">
+        To use this extension you must login on <a href="https://www.bungie.net" target="_blank">Bungie.net</a>.
+        Once you login this page will refresh automatically.
+    </div>
+    <div ng-if="::!Platform.isChrome()" layout="column" flex>
+        <md-button ng-click="login('Psnid')">
+            <md-icon md-font-icon="ion-playstation"></md-icon>
+            PlayStation Network
+        </md-button>
+        <md-button ng-click="login('Wlid')">
+            <md-icon md-font-icon="ion-social-windows"></md-icon>
+            Microsoft Account
+        </md-button>
+        <md-button ng-click="login('Google')">
+            <md-icon md-font-icon="ion-social-google"></md-icon>
+            Google
+        </md-button>
+        <md-button ng-click="login('Facebook')">
+            <md-icon md-font-icon="ion-social-facebook"></md-icon>
+            Facebook
+        </md-button>
+    </div>
+</md-content>

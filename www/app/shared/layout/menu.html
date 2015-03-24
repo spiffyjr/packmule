@@ -1,0 +1,23 @@
+<div layout="column" flex ng-controller="MenuCtrl">
+    <md-toolbar layout="row">
+        <md-button md-no-ink ng-click="toggleLeft();" ng-if="showMenuToggle()" aria-label="Menu">
+            <md-icon md-font-icon="fa fa-bars"></md-icon>
+        </md-button>
+        <h1 class="md-toolbar-tools" layout-align-gt-sm="center" flex>Packmule</h1>
+        <md-button md-no-ink ng-click="toggleRight();" hide-gt-sm aria-label="Filters">
+            <md-icon md-font-icon="fa fa-filter"></md-icon>
+        </md-button>
+    </md-toolbar>
+
+    <div layout="row" flex>
+        <div ng-include="basedir + '/shared/layout/left-nav.html'" layout="column"></div>
+
+        <div layout="column" flex class="md-padding">
+            <md-progress-linear id="loading-bar" class="md-accent" md-mode="indeterminate" ng-show="loadingBarEnabled"></md-progress-linear>
+
+            <md-content ui-view="content" layout="column" flex>
+        </div>
+
+        <div ng-controller="RightNavCtrl" ng-include="basedir + '/shared/layout/right-nav.html'" layout="column"></div>
+    </div>
+</div>

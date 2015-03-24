@@ -1,0 +1,32 @@
+.user-plate {
+  background-color: #eee !important;
+  font-size: 14px;
+  height: 180px;
+}
+
+.user-plate.login {
+  cursor: pointer;
+}
+
+.user-plate .platform {
+  margin-top: 0;
+  width: 100%;
+}
+
+.user-plate .platform .md-select-label > span:first-child {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+.user-plate img {
+  margin: 8px;
+}
+
+.user-plate .extra {
+  padding: 8px;
+}
+
+.user-plate.ng-hide {
+  opacity: 0;
+}

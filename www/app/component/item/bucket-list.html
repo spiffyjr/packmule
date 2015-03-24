@@ -1,0 +1,4 @@
+<section ng-repeat="bucket in buckets track by bucket.id">
+    <md-toolbar class="bucket-header" ng-hide="bucket.hidden"><div class="md-toolbar-tools">{{::bucket.bucketName}}</div></md-toolbar>
+    <item-list items="bucket.items"></item-list>
+</section>

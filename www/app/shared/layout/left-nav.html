@@ -1,0 +1,44 @@
+<md-sidenav id="left-nav" layout="column" class="md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('(min-width: 1400px)')" flex>
+    <md-content class="md-primary user-plate" ng-show="user" ng-if="AuthService.isAuthorized()">
+        <div layout="row">
+            <img ng-src="http://www.bungie.net{{::user.profilePicturePath}}" style="width: 90px; height: 90px;"/>
+            <div layout="column">
+                <h2>{{::user.displayName}}</h2>
+                <div>{{::user.uniqueName}}</div>
+                <div>{{::user.userTitleDisplay}}</div>
+            </div>
+        </div>
+        <div layout="row" class="extra">
+            <div>Following: {{::user.followerCount}}</div>
+            <div flex class="text-right">Followers: {{::user.followingUserCount}}</div>
+        </div>
+        <md-select class="platform" placeholder="Platform" md-no-ink ng-model="memberType" ng-change="onChangeMemberType(memberType)" flex>
+            <md-option value="1" md-no-ink ng-selected="memberType == 1" ng-if="::hasXbox">Xbox Live</md-option>
+            <md-option value="2" md-no-ink ng-selected="memberType == 2" ng-if="::hasPsn">PlayStation Network</md-option>
+        </md-select>
+    </md-content>
+    <md-content class="md-primary user-plate login" ng-if="!AuthService.isAuthorized()" ng-click="navigate('app.login')" layout="column" layout-align="center center">
+        <i class="fa fa-5x fa-sign-in"></i> Login to Bungie.net
+    </md-content>
+    <md-divider></md-divider>
+    <md-button md-no-ink class="md-accent text-center" ng-click="navigate('app.login')">
+        Remove Advertisements
+    </md-button>
+    <md-divider></md-divider>
+    <md-button md-no-ink ng-click="navigate('app.vault')">
+        <md-icon md-font-icon="fa fa-bank"></md-icon> Vault
+    </md-button>
+    <md-button md-no-ink ng-click="navigate('app.guardian')">
+        <md-icon md-font-icon="fa fa-male"></md-icon> Guardian
+    </md-button>
+    <md-button md-no-ink ng-click="navigate('app.settings')">
+        <md-icon md-font-icon="fa fa-cogs"></md-icon> Settings
+    </md-button>
+    <md-button md-no-ink ng-click="navigate('app.about')">
+        <md-icon md-font-icon="fa fa-info"></md-icon> About
+    </md-button>
+    <md-divider></md-divider>
+    <md-button md-no-ink ng-click="navigate('app.logout')" ng-show="AuthService.isAuthorized()">
+        <md-icon md-font-icon="fa fa-sign-out"></md-icon> Logout
+    </md-button>
+</md-sidenav>
