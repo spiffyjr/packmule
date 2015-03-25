@@ -10,7 +10,7 @@
     </md-toolbar>
 
     <div layout="row" flex>
-        <div ng-include="basedir + '/shared/layout/left-nav.html'" layout="column"></div>
+        <div ng-include="basedir + '/shared/layout/left-nav.html'" layout="column" md-swipe-left="closeLeft()"></div>
 
         <div layout="column" flex class="md-padding">
             <md-progress-linear id="loading-bar" class="md-accent" md-mode="indeterminate" ng-show="loadingBarEnabled"></md-progress-linear>
@@ -18,6 +18,6 @@
             <md-content ui-view="content" layout="column" flex>
         </div>
 
-        <div ng-controller="RightNavCtrl" ng-include="basedir + '/shared/layout/right-nav.html'" layout="column"></div>
+        <div ng-controller="RightNavCtrl" ng-include="basedir + '/shared/layout/right-nav.html'" layout="column" md-swipe-right="closeRight()"></div>
     </div>
 </div>

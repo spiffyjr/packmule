@@ -9,7 +9,12 @@ var js_files = {
 
         'www/app/shared/AppCtrl.js',
 
+        'www/app/shared/item/BottomSheetCtrl.js',
+        'www/app/shared/item/BucketListDirective.js',
+        'www/app/shared/item/ItemListDirective.js',
+        'www/app/shared/item/ItemFilters.js',
         'www/app/shared/item/ItemService.js',
+
         'www/app/shared/layout/MenuCtrl.js',
         'www/app/shared/layout/RightNavCtrl.js',
 
@@ -22,10 +27,6 @@ var js_files = {
         'www/app/component/bungie/AuthService.js',
         'www/app/component/bungie/BungieClient.js',
         'www/app/component/bungie/BungieService.js',
-
-        'www/app/component/item/BucketListDirective.js',
-        'www/app/component/item/ItemListDirective.js',
-        'www/app/component/item/ItemFilters.js',
 
         'www/app/component/vault/VaultCtrl.js'
     ],
@@ -153,7 +154,7 @@ module.exports = function(grunt) {
 
     // Default task(s).
     grunt.registerTask('default', ['dev']);
-    grunt.registerTask('dev', ['copy', 'env:dev', 'preprocess', 'sass:dev', 'watch']);
+    grunt.registerTask('dev', ['copy', 'env:dev', 'preprocess', 'sass:dev']);
     grunt.registerTask('prod', ['copy', 'env:prod', 'preprocess', 'htmlmin', 'uglify', 'sass:prod']);
 
     grunt.registerTask('download', 'Compiles def files', function() {

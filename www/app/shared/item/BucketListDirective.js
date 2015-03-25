@@ -4,7 +4,7 @@ var BucketListDirective = function() {
         scope: {
             buckets: '='
         },
-        templateUrl: packmule.basedir + '/component/item/bucket-list.html'
+        templateUrl: packmule.basedir + '/shared/item/bucket-list.html'
     };
 };
 

@@ -5,7 +5,7 @@ var ItemListDirective = function() {
         scope: {
             items: '='
         },
-        controller: function($rootScope, $scope, $mdBottomSheet, BungieService) {
+        controller: function($rootScope, $scope, $mdBottomSheet, BungieService, ItemService) {
             $scope.chars = BungieService.account.characters;
             $scope.accountDefs = BungieService.accountDefs;
             $scope.getCharacter = function(charId) {
@@ -41,12 +41,16 @@ var ItemListDirective = function() {
                 sheetScope.getCharacter = $scope.getCharacter;
 
                 $mdBottomSheet.show({
+                    controller: 'BottomSheetCtrl',
                     scope: sheetScope,
-                    templateUrl: 'app/component/item/bottom-sheet.html'
+                    locals: {
+                        ItemService: ItemService
+                    },
+                    templateUrl: packmule.basedir + '/shared/item/bottom-sheet.html'
                 });
             }
         },
-        templateUrl: packmule.basedir + '/component/item/item-list.html'
+        templateUrl: packmule.basedir + '/shared/item/item-list.html'
     };
 };
 

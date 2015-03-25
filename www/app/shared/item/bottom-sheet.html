@@ -7,14 +7,14 @@
                 Equip item
             </md-button>
         </md-item>
-        <md-item ng-if="::(!item.isEquipped && item.charId)">
+        <md-item ng-if="::(!item.isEquipped && item.charId)" ng-click="transferItem(item, item.charId)">
             <md-button md-no-ink >
                 <md-icon md-font-icon="fa fa-bank"></md-icon>
                 Send to Vault
             </md-button>
         </md-item>
         <md-item ng-repeat="char in ::chars track by ::char.characterBase.characterId">
-            <md-button md-no-ink >
+            <md-button md-no-ink ng-click="transferItem(item, char.characterBase.characterId)">
                 <md-icon md-font-icon="fa fa-share"></md-icon>
                 {{::getCharacter(char.characterBase.characterId)}}
             </md-button>

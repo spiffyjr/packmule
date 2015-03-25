@@ -8,13 +8,13 @@ var VaultCtrl = function($scope, BungieService) {
         BungieService
             .aggregateBuckets(null, true)
             .then(function() {
-                $scope.buckets = BungieService.buckets;
+                $scope.buckets = BungieService.filterBuckets();
             });
     };
 
     $scope.$on('BungieService:init', load);
-    $scope.$on('BungieService:filterBuckets', function(e, result) {
-        $scope.buckets = result;
+    $scope.$on('ItemFilters:updated', function() {
+        $scope.buckets = BungieService.filterBuckets();
     });
 
     load();

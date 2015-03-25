@@ -1,4 +1,4 @@
-var BungieService = function($q, $rootScope, $http, $filter, BungieClient) {
+var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemFilters) {
     var CACHE_MEMBER_TYPE = 'BungieService.activeMemberType';
 
     var self = this;
@@ -326,7 +326,8 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient) {
         });
     };
 
-    this.applyFilters = function(filters) {
+    this.filterBuckets = function() {
+        var filters = ItemFilters.filters;
         var buckets = _.defaults({}, this.buckets);
 
         _.forEach(buckets, function (bucket) {
@@ -342,9 +343,15 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient) {
             bucket.items = $filter('itemEquipped')(bucket.items, filters.isEquipped);
             bucket.items = $filter('itemGridComplete')(bucket.items, filters.isGridComplete);
             bucket.items = $filter('itemLocation')(bucket.items, filters.location);
+
+            var hidden = _.where(bucket.items, { hidden: true }).length;
+
+            if (hidden == bucket.items.length) {
+                bucket.hidden = true;
+            }
         });
 
-        $rootScope.$broadcast('BungieService:filterBuckets', buckets);
+        return buckets;
     };
 };
 

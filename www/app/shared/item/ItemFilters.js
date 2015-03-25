@@ -1,4 +1,4 @@
-var ItemFilters = function() {
+var ItemFilters = function($rootScope) {
     this.filterGroups = {
         armor: [
             'BUCKET_ARMS',
@@ -29,7 +29,7 @@ var ItemFilters = function() {
         name: '',
         category: {
             armor: true,
-            other: true,
+            other: false,
             vanity: true,
             weapons: true
         },
@@ -43,16 +43,27 @@ var ItemFilters = function() {
         quality: {
             exotic: true,
             legendary: true,
-            rare: true,
-            uncommon: true,
-            common: true
+            rare: false,
+            uncommon: false,
+            common: false
         },
         isEquipped: false,
         isGridComplete: false
     };
 
+    this.filters = _.merge({}, this.filterDefaults);
+
     this.defaults = function() {
         return _.merge({}, this.filterDefaults);
+    };
+
+    this.clear = function() {
+        this.set(_.merge({}, this.filterDefaults));
+    };
+
+    this.set = function(value) {
+        this.filters = _.merge({}, value);
+        $rootScope.$broadcast('ItemFilters:updated');
     };
 };
 
@@ -142,6 +153,6 @@ angular
                 }
             });
 
-            return items;B
+            return items;
         }
     });

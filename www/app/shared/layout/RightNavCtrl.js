@@ -1,12 +1,7 @@
 var RightNavCtrl = function($scope, $timeout, $mdSidenav, BungieService, ItemFilters) {
-    var apply = function() {
-        $mdSidenav('right').toggle();
-        $timeout(function() {
-            BungieService.applyFilters($scope.data);
-        }, 250);
+    var apply = function(value) {
+        ItemFilters.set(value);
     };
-
-    $scope.data = ItemFilters.defaults();
 
     $scope.getCharacter = function(charId) {
         var character = BungieService.getCharacterById(charId);
@@ -20,18 +15,17 @@ var RightNavCtrl = function($scope, $timeout, $mdSidenav, BungieService, ItemFil
         return parts.join(' ');
     };
 
-    $scope.clear = function() {
-        $scope.data = ItemFilters.defaults();
-        apply();
-    };
+    $scope.data = ItemFilters.defaults();
 
-    $scope.apply = function() {
-        apply();
+    $scope.clear = function() {
+        ItemFilters.clear();
     };
 
     $scope.$on('BungieService:init', function() {
         $scope.characters = BungieService.account.characters;
     });
+
+    $scope.$watch('data', apply, true);
 };
 
 angular

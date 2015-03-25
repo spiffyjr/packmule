@@ -3,18 +3,20 @@
             md-is-locked-open="$mdMedia('gt-md')"
             layout="column" flex>
     <div layout="row">
-        <md-button class="md-primary" flex="50" ng-click="apply()">Apply</md-button>
-        <md-button class="md-accent" flex="50" ng-click="clear()">Clear</md-button>
+        <md-button class="md-accent" flex ng-click="clear()">Clear</md-button>
     </div>
     <md-content flex>
         <!-- generic -->
         <md-toolbar class="md-primary md-hue-1" layout="row">
             <div class="md-toolbar-tools">Generic</div>
         </md-toolbar>
-        <md-input-container>
-            <label>Name</label>
-            <input ng-model="data.name">
-        </md-input-container>
+        <div layout="row">
+            <md-input-container flex>
+                <label>Name</label>
+                <input ng-model="data.name" ng-model-options="{debounce: 250}">
+            </md-input-container>
+            <md-button class="md-accent" ng-click="data.name = ''">Clear</md-button>
+        </div>
         <md-checkbox class="md-accent md-hue-3" ng-model="data.isGridComplete" aria-label="Upgraded">
         Fully Upgraded
         </md-checkbox>
@@ -38,7 +40,6 @@
         <!-- category -->
         <md-toolbar class="md-primary md-hue-1" layout="row">
             <div class="md-toolbar-tools">
-                <md-checkbox class="md-accent md-hue-3" ng-model="toggle.category" ng-change="toggleSwitches('category')" aria-label="Category"></md-checkbox>
                 Category
             </div>
         </md-toolbar>
@@ -52,7 +53,6 @@
         <!-- quality -->
         <md-toolbar class="md-primary md-hue-1" layout="row">
             <div class="md-toolbar-tools">
-                <md-checkbox class="md-accent md-hue-3" ng-model="toggle.quality" ng-change="toggleSwitches('quality')" aria-label="Quality"></md-checkbox>
                 Quality
             </div>
         </md-toolbar>
@@ -68,7 +68,6 @@
         <div ng-if="data.category.weapons">
             <md-toolbar class="md-primary md-hue-1" layout="row">
                 <div class="md-toolbar-tools">
-                    <md-checkbox class="md-accent md-hue-3" ng-model="toggle.damage" ng-change="toggleSwitches('damage')" aria-label="Damage"></md-checkbox>
                     Damage
                 </div>
             </md-toolbar>

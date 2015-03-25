@@ -87,6 +87,28 @@ var BungieClient = function($rootScope, $q, cordovaHTTP, AuthService) {
                                 reject(response);
                             });
                         break;
+                    case 'post':
+                        cordovaHTTP
+                            .post(url, data, headers)
+                            .then(function(response) {
+                                console.log(response);
+
+                                finish();
+                                response = JSON.parse(response.data);
+
+                                if (response.ErrorCode == 1) {
+                                    resolve(response.Response);
+                                    return;
+                                }
+                                console.log('Error reponse: ' + response.Message);
+                                reject(response.Message);
+                            }, function(response) {
+                                console.log(response);
+
+                                finish();
+                                reject(response);
+                            });
+                        break;
                 }
             });
         };

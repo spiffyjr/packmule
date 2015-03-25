@@ -30,6 +30,14 @@ var MenuCtrl = function($scope, $state, $mdSidenav, $mdMedia, AuthService, Bungi
         $scope.loadingBarEnabled = false;
     });
 
+    $scope.closeLeft = function() {
+        $mdSidenav('left').close();
+    };
+
+    $scope.closeRight = function() {
+        $mdSidenav('right').close();
+    };
+
     $scope.toggleLeft = function() {
         $mdSidenav('left').toggle();
     };

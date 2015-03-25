@@ -33,6 +33,12 @@
 
     <script type="text/javascript" src="app/shared/AppCtrl.js"></script>
 
+    <script type="text/javascript" src="app/shared/item/BottomSheetCtrl.js"></script>
+    <script type="text/javascript" src="app/shared/item/BucketListDirective.js"></script>
+    <script type="text/javascript" src="app/shared/item/ItemListDirective.js"></script>
+    <script type="text/javascript" src="app/shared/item/ItemFilters.js"></script>
+    <script type="text/javascript" src="app/shared/item/ItemService.js"></script>
+
     <script type="text/javascript" src="app/shared/layout/MenuCtrl.js"></script>
     <script type="text/javascript" src="app/shared/layout/RightNavCtrl.js"></script>
 
@@ -45,10 +51,6 @@
     <script type="text/javascript" src="app/component/bungie/AuthService.js"></script>
     <script type="text/javascript" src="app/component/bungie/BungieClient.js"></script>
     <script type="text/javascript" src="app/component/bungie/BungieService.js"></script>
-
-    <script type="text/javascript" src="app/component/item/BucketListDirective.js"></script>
-    <script type="text/javascript" src="app/component/item/ItemListDirective.js"></script>
-    <script type="text/javascript" src="app/component/item/ItemFilters.js"></script>
 
     <script type="text/javascript" src="app/component/vault/VaultCtrl.js"></script>
     <!-- @endif -->
