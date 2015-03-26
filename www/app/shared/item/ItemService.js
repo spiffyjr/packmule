@@ -1,6 +1,6 @@
 'use strict';
 
-var ItemService = function($q, $timeout, BungieClient, BungieService) {
+var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, BungieService) {
     var MAX_VAULT_SPACE = 20;
     var MAX_INVENTORY_SPACE = 9;
     var RATE_LIMIT = 1100;
@@ -28,7 +28,10 @@ var ItemService = function($q, $timeout, BungieClient, BungieService) {
         var choices = [];
 
         _.forEach(bucket.items, function(replace) {
-            if (!replace.isEquipped && (replace.classType == 3 || replace.classType == character.characterBase.classType)) {
+            if (!replace.isEquipped &&
+                replace.tierType < 6 &&
+                (replace.classType == 3 || replace.classType == character.characterBase.classType)
+            ) {
                 choices.push(replace);
             }
         });
@@ -59,7 +62,14 @@ var ItemService = function($q, $timeout, BungieClient, BungieService) {
             if (charId == 'vault' && self.checkVaultSpace(item) == 0) {
                 needsSpace.push('vault');
             } else if (charId != 'vault' && self.checkInventorySpace(item, charId) == 0) {
-                needsSpace.push(charId);
+                var character = BungieService.getCharacterById(charId);
+
+                needsSpace.push([
+                    character.characterLevel,
+                    BungieService.getCharacterGender(character),
+                    BungieService.getCharacterRace(character),
+                    BungieService.getCharacterClass(character)
+                ].join(' '));
             }
         });
 
@@ -101,30 +111,27 @@ var ItemService = function($q, $timeout, BungieClient, BungieService) {
                 resolve(successMessage);
             }, reject);
 
+            $rootScope.$broadcast('ItemService:updated', Object.keys(affected));
+
             affected = [];
             queue = [];
         });
     };
 
-    var doEquip = function(item, replaceWith) {
+    var doEquip = function(item) {
         return $q(function(resolve, reject) {
             if (!item.charId) {
                 reject('Error (shimmering void)');
                 return;
             }
 
-            if (replaceWith) {
-                if (item.charId != replaceWith.charId) {
-                    reject('Error (sloppy flamingo)');
-                    return;
-                }
+            var data = {
+                characterId: item.charId,
+                itemId: item.itemInstanceId,
+                membershipType: BungieService.account.membershipType
+            };
 
-                console.log('equip ' + replaceWith.itemName + ' on ' + item.charId + ' replacing ' + item.itemName);
-            } else {
-                console.log('equip ' + item.itemName + ' on ' + item.charId);
-            }
-
-            resolve();
+            return BungieClient.equipItem(data).then(resolve, reject);
         });
     };
 
@@ -154,6 +161,7 @@ var ItemService = function($q, $timeout, BungieClient, BungieService) {
                 stackSize: item.stackSize,
                 transferToVault: toVault
             };
+
             return BungieClient.transferItem(data).then(resolve, reject);
         });
     };
@@ -195,7 +203,7 @@ var ItemService = function($q, $timeout, BungieClient, BungieService) {
             move(replaceWith, item.charId);
         }
 
-        queue.push([doEquip, item, replaceWith]);
+        queue.push([doEquip, replaceWith]);
     };
 
     this.checkInventorySpace = function(item, charId) {
@@ -203,7 +211,10 @@ var ItemService = function($q, $timeout, BungieClient, BungieService) {
 
         _.forEach(BungieService.buckets, function(bucket) {
             _.forEach(bucket.items, function(bucketItem) {
-                if (bucketItem.charId == charId && bucketItem.itemType == item.itemType ) {
+                if (bucketItem.charId == charId &&
+                    bucketItem.bucketTypeHash == item.bucketTypeHash &&
+                    !bucketItem.isEquipped
+                ) {
                     count++;
                 }
             });

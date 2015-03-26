@@ -7,7 +7,7 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
     this.itemDefs = null;
     this.bucketDefs = null;
 
-    this.buckets = null;
+    this.buckets = {};
 
     var sortBuckets = function(buckets) {
         var array = [];
@@ -295,6 +295,10 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
                 charIds = _.pluck(_.pluck(self.account.characters, 'characterBase'), 'characterId');
             }
 
+            if (typeof includeVault == 'undefined') {
+                includeVault = true;
+            }
+
             var promises = {};
 
             _.forEach(charIds, function (cid) {
@@ -309,8 +313,20 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
                 promises.vault = BungieClient.findVault(self.activeMemberType);
             }
 
+            // clear items from previously affected chars
+            var bucketCopy = _.merge({}, self.buckets);
+
+            _.forEach(self.buckets, function(bucket, bucketKey) {
+                _.forEach(bucket.items, function(item, itemKey) {
+                    if ((!item.charId && includeVault) || charIds.indexOf(item.charId) > -1) {
+                        bucketCopy[bucketKey].items.splice(itemKey, 1);
+                    }
+                });
+            });
+
             var aggregate = {};
 
+            // aggregate responses
             $q.all(promises).then(function(results) {
                 _.forEach(results, function(result, key) {
                     if (key === 'vault') {
@@ -322,7 +338,9 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
                     aggregate = aggregateResult(aggregate, result, key);
                 });
 
-                self.buckets = sortBuckets(aggregate);
+                // merge old unaffected data with new data
+
+                self.buckets = _.merge(bucketCopy, aggregate);
                 resolve();
             });
         });
