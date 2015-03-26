@@ -29,7 +29,17 @@ angular.module(
         'app.layout',
         'app.test',
         'app.vault'
-    ]);
+    ])
+    .run(function($rootScope, $state, AuthService) {
+        $rootScope.$on('$stateChangeStart',
+            function(e, toState) {
+                if (!AuthService.isAuthorized() && toState.name != 'app.login') {
+                    console.log('redirecting to login');
+                    e.preventDefault();
+                    return $state.go('app.login');
+                }
+            });
+    });
 
 document.addEventListener(window.cordova ? 'deviceready' : 'DOMContentLoaded', function() {
     var bootstrap = function() {

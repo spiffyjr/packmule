@@ -212,6 +212,8 @@ module.exports = function(grunt) {
                             defs[json.itemHash] = {
                                 itemName: json.itemName,
                                 itemType: json.itemType,
+                                classType: json.classType,
+                                bucketTypeHas: json.bucketTypeHash,
                                 tierType: json.tierType,
                                 tierTypeName: json.tierTypeName,
                                 bucketTypeHash: json.bucketTypeHash,

@@ -1,22 +1,25 @@
 <md-bottom-sheet id="item-sheet">
     <h2>{{::item.itemName}}</h2>
     <md-list>
-        <md-item>
-            <md-button md-no-ink ng-if="::(false)">
-                <md-icon md-font-icon="fa fa-male"></md-icon>
-                Equip item
-            </md-button>
-        </md-item>
-        <md-item ng-if="::(!item.isEquipped && item.charId)" ng-click="transferItem(item, item.charId)">
+        <md-item ng-if="::item.charId" ng-click="transferItem(item, null)">
             <md-button md-no-ink >
                 <md-icon md-font-icon="fa fa-bank"></md-icon>
                 Send to Vault
             </md-button>
         </md-item>
-        <md-item ng-repeat="char in ::chars track by ::char.characterBase.characterId">
+        <md-item ng-repeat="char in ::chars track by ::char.characterBase.characterId" ng-if="::(item.charId != char.characterBase.characterId)">
+            <md-button md-no-ink ng-click="equipItem(item, char.characterBase.characterId)">
+                <md-icon md-font-icon="ion-tshirt"></md-icon>
+                Equip
+                <span ng-if="::item.charId != char.characterBase.characterId">
+                    on {{::getCharacter(char.characterBase.characterId)}}
+                </span>
+            </md-button>
+        </md-item>
+        <md-item ng-repeat="char in ::chars track by ::char.characterBase.characterId" ng-if="::item.charId != char.characterBase.characterId">
             <md-button md-no-ink ng-click="transferItem(item, char.characterBase.characterId)">
                 <md-icon md-font-icon="fa fa-share"></md-icon>
-                {{::getCharacter(char.characterBase.characterId)}}
+                Move to {{::getCharacter(char.characterBase.characterId)}}
             </md-button>
         </md-item>
     </md-list>

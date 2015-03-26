@@ -119,6 +119,8 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
                     charId: (charId == 'vault' ? null : charId),
                     itemName: itemDef.itemName,
                     itemType: itemDef.itemType,
+                    classType: itemDef.classType,
+                    bucketTypeHash: itemDef.bucketTypeHash,
                     tierType: itemDef.tierType,
                     tierTypeName: itemDef.tierTypeName,
                     icon: itemDef.icon,
