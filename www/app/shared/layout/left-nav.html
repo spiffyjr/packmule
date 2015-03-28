@@ -20,14 +20,17 @@
     <md-content class="md-primary user-plate login" ng-if="!AuthService.isAuthorized()" ng-click="navigate('app.login')" layout="column" layout-align="center center">
         <i class="fa fa-5x fa-sign-in"></i> Login to Bungie.net
     </md-content>
+    <!--
     <md-divider></md-divider>
     <md-button md-no-ink class="md-accent text-center" ng-click="navigate('app.login')">
         Remove Advertisements
     </md-button>
+    -->
     <md-divider></md-divider>
     <md-button md-no-ink ng-click="navigate('app.vault')">
         <md-icon md-font-icon="fa fa-bank"></md-icon> Vault
     </md-button>
+    <!--
     <md-button md-no-ink ng-click="navigate('app.guardian')">
         <md-icon md-font-icon="fa fa-male"></md-icon> Guardian
     </md-button>
@@ -37,6 +40,7 @@
     <md-button md-no-ink ng-click="navigate('app.about')">
         <md-icon md-font-icon="fa fa-info"></md-icon> About
     </md-button>
+    -->
     <md-divider></md-divider>
     <md-button md-no-ink ng-click="navigate('app.logout')" ng-show="AuthService.isAuthorized()">
         <md-icon md-font-icon="fa fa-sign-out"></md-icon> Logout

@@ -50,6 +50,7 @@ var ItemFilters = function($rootScope) {
             common: false
         },
         isEquipped: false,
+        isGridOpen: false,
         isGridComplete: false
     };
 
@@ -72,6 +73,32 @@ var ItemFilters = function($rootScope) {
 angular
     .module('app.item')
     .service('ItemFilters', ItemFilters)
+    .filter('bucketFilter', function($filter) {
+        return function(bucket, filters) {
+            bucket.hidden = false;
+
+            $filter('bucketCategory')(bucket, filters.category);
+            $filter('bucketEmpty')(bucket);
+
+            return bucket;
+        }
+    })
+    .filter('bucketItemsFilter', function($filter) {
+        return function(items, filters) {
+            _.forEach(items, function(item) {
+                item.hidden = false;
+
+                $filter('itemName')(item, filters.name);
+                $filter('itemTier')(item, filters.quality);
+                $filter('itemDamage')(item, filters.damage);
+                $filter('itemEquipped')(item, filters.isEquipped);
+                $filter('itemGridComplete')(item, filters.isGridComplete);
+                $filter('itemGridOpen')(item, filters.isGridOpen);
+                $filter('itemLocation')(item, filters.location);
+            });
+            return items;
+        };
+    })
     .filter('bucketCategory', function(ItemFilters) {
         return function(bucket, categories) {
             _.forEach(categories, function(value, category) {
@@ -84,93 +111,90 @@ angular
                     bucket.hidden = true;
                 }
             });
-
+            return bucket;
+        }
+    })
+    .filter('bucketEmpty', function() {
+        return function(bucket) {
+            if (_.where(bucket.items, {hidden: true}).length == bucket.items.length) {
+                bucket.hidden = true;
+            }
             return bucket;
         }
     })
     .filter('itemName', function() {
-        return function(items, name) {
-            _.forEach(items, function(item) {
-                if (name.length > 0) {
-                    var regex = new RegExp(name, 'i');
-                    if (!item.itemName.match(regex)) {
-                        item.hidden = true;
-                    }
+        return function(item, name) {
+            if (name.length > 0) {
+                var regex = new RegExp(name, 'i');
+                if (!item.itemName.match(regex)) {
+                    item.hidden = true;
                 }
-            });
-
-            return items;
+            }
+            return item;
         }
     })
     .filter('itemTier', function() {
-        return function(items, quality) {
-            _.forEach(items, function(item) {
-                if (quality[item.tierTypeName.toLocaleLowerCase()] != true) {
-                    item.hidden = true;
-                }
-            });
-
-            return items;
+        return function(item, quality) {
+            if (quality[item.tierTypeName.toLocaleLowerCase()] != true) {
+                item.hidden = true;
+            }
+            return item;
         }
     })
     .filter('itemDamage', function() {
-        return function(items, damage) {
-            _.forEach(items, function(item) {
-                if (item.isEquipment) {
-                    if (item.damageType == 2 && !damage.arc) {
-                        item.hidden = true;
-                    }
-                    if (item.damageType == 3 && !damage.solar) {
-                        item.hidden = true;
-                    }
-                    if (item.damageType == 4 && !damage.void) {
-                        item.hidden = true;
-                    }
-                    if (item.damageType == 0 && item.primaryStat && item.primaryStat.value > 0 && !damage.kinetic) {
-                        item.hidden = true;
-                    }
+        return function(item, damage) {
+            if (item.isEquipment) {
+                if (item.damageType == 2 && !damage.arc) {
+                    item.hidden = true;
                 }
-            });
-
-            return items;
+                if (item.damageType == 3 && !damage.solar) {
+                    item.hidden = true;
+                }
+                if (item.damageType == 4 && !damage.void) {
+                    item.hidden = true;
+                }
+                if (item.damageType == 0 && item.primaryStat && item.primaryStat.value > 0 && !damage.kinetic) {
+                    item.hidden = true;
+                }
+            }
+            return item;
         }
     })
     .filter('itemGridComplete', function() {
-        return function(items, isGridComplete) {
-            _.forEach(items, function(item) {
-                if (isGridComplete && !item.isGridComplete) {
-                    item.hidden = true;
-                }
-            });
-
-            return items;
+        return function(item, isGridComplete) {
+            if (isGridComplete && !item.isGridComplete) {
+                item.hidden = true;
+            }
+            return item;
+        }
+    })
+    .filter('itemGridOpen', function() {
+        return function(item, isGridOpen) {
+            if (isGridOpen && item.isGridComplete) {
+                item.hidden = true;
+            }
+            return item;
         }
     })
     .filter('itemEquipped', function() {
-        return function(items, isEquipped) {
-            _.forEach(items, function(item) {
-                if (isEquipped && !item.isEquipped) {
-                    item.hidden = true;
-                }
-            });
-
-            return items;
+        return function(item, isEquipped) {
+            if (isEquipped && !item.isEquipped) {
+                item.hidden = true;
+            }
+            return item;
         }
     })
     .filter('itemLocation', function() {
-        return function(items, location) {
-            _.forEach(items, function(item) {
-                if (location == 'vault') {
-                    if (item.charId) {
-                        item.hidden = true;
-                    }
-                } else if (location != 'any') {
-                    if (location != item.charId) {
-                        item.hidden = true;
-                    }
+        return function(item, location) {
+            if (location == 'vault') {
+                if (item.charId) {
+                    item.hidden = true;
                 }
-            });
-
-            return items;
+            } else if (location != 'any') {
+                if (location != item.charId) {
+                    item.hidden = true;
+                }
+            }
+            return item;
         }
     });

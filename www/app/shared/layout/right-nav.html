@@ -17,11 +17,16 @@
             </md-input-container>
             <md-button class="md-accent" ng-click="data.name = ''">Clear</md-button>
         </div>
-        <md-checkbox class="md-accent md-hue-3" ng-model="data.isGridComplete" aria-label="Upgraded">
-        Fully Upgraded
-        </md-checkbox>
+        <div layout="row">
+            <md-checkbox class="md-accent md-hue-3" ng-model="data.isGridComplete" aria-label="Upgraded">
+                XP Complete
+            </md-checkbox>
+            <md-checkbox class="md-accent md-hue-3" ng-model="data.isGridOpen" aria-label="Upgraded">
+                XP Required
+            </md-checkbox>
+        </div>
         <md-checkbox class="md-accent md-hue-3" ng-model="data.isEquipped" aria-label="Equipped">
-        Equipped
+            Equipped
         </md-checkbox>
 
         <!-- location -->

@@ -39,6 +39,7 @@ var ItemListDirective = function() {
                 sheetScope.item = item;
                 sheetScope.chars = $scope.chars;
                 sheetScope.getCharacter = $scope.getCharacter;
+                sheetScope.getCharacterEmblem = $scope.getCharacterEmblem;
 
                 $mdBottomSheet.show({
                     controller: 'BottomSheetCtrl',

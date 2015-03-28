@@ -335,26 +335,9 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
         var buckets = sortBuckets(_.merge({}, self.buckets));
 
         _.forEach(buckets, function (bucket) {
-            bucket.hidden = false;
-
-            $filter('bucketCategory')(bucket, filters.category);
-
-            _.forEach(bucket.items, function(item) {
-                item.hidden = false;
-            });
-
-            $filter('itemName')(bucket.items, filters.name);
-            $filter('itemTier')(bucket.items, filters.quality);
-            $filter('itemDamage')(bucket.items, filters.damage);
-            $filter('itemEquipped')(bucket.items, filters.isEquipped);
-            $filter('itemGridComplete')(bucket.items, filters.isGridComplete);
-            $filter('itemLocation')(bucket.items, filters.location);
-
-            var hidden = _.where(bucket.items, { hidden: true }).length;
-
-            if (hidden == bucket.items.length) {
-                bucket.hidden = true;
-            }
+            // order here is important - items first then bucket can be filtered if empty
+            $filter('bucketItemsFilter')(bucket.items, filters);
+            $filter('bucketFilter')(bucket, filters);
         });
 
         return buckets;

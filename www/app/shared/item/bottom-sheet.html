@@ -1,5 +1,11 @@
 <md-bottom-sheet id="item-sheet">
-    <h2>{{::item.itemName}}</h2>
+    <h3>{{::item.itemName}}</h3>
+    <h4>
+        <img ng-if="::item.charId" style="height: 26px; width: 26px; vertical-align: middle;" ng-src="http://www.bungie.net{{::getCharacterEmblem(item.charId)}}" />
+        <span ng-if="::item.charId">{{::getCharacter(item.charId)}}</span>
+        <md-icon ng-if="::!item.charId" md-font-icon="fa fa-bank"></md-icon>
+        <span ng-if="::!item.charId">Vault</span>
+    </h4>
     <md-list>
         <md-item ng-if="::item.charId" ng-click="transferItem(item, null)">
             <md-button md-no-ink >
@@ -7,18 +13,19 @@
                 Send to Vault
             </md-button>
         </md-item>
-        <md-item ng-repeat="char in ::chars track by ::char.characterBase.characterId" ng-if="::(item.charId != char.characterBase.characterId || !item.isEquipped)">
+        <md-item ng-repeat="char in ::chars track by ::char.characterBase.characterId"
+                 ng-if="::((item.charId != char.characterBase.characterId || !item.isEquipped) && (item.classType == 3 || item.classType == char.characterBase.classType))">
             <md-button md-no-ink ng-click="equipItem(item, char.characterBase.characterId)">
                 <md-icon md-font-icon="ion-tshirt"></md-icon>
-                Equip
-                <span ng-if="::item.charId != char.characterBase.characterId">
-                    on {{::getCharacter(char.characterBase.characterId)}}
-                </span>
+                <img style="height: 26px; width: 26px; vertical-align: middle;" ng-src="http://www.bungie.net{{::char.emblemPath}}" />
+                Equip on
+                {{::getCharacter(char.characterBase.characterId)}}
             </md-button>
         </md-item>
         <md-item ng-repeat="char in ::chars track by ::char.characterBase.characterId" ng-if="::item.charId != char.characterBase.characterId">
             <md-button md-no-ink ng-click="transferItem(item, char.characterBase.characterId)">
                 <md-icon md-font-icon="fa fa-share"></md-icon>
+                <img style="height: 26px; width: 26px; vertical-align: middle;" ng-src="http://www.bungie.net{{::char.emblemPath}}" />
                 Move to {{::getCharacter(char.characterBase.characterId)}}
             </md-button>
         </md-item>
