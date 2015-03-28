@@ -13,7 +13,7 @@ var VaultCtrl = function($scope, BungieService) {
             });
     };
 
-    $scope.$on('BungieService:init', function(e) {
+    $scope.$on('BungieService:init', function() {
         load();
     });
     $scope.$on('ItemService:updated', function(e, result) {

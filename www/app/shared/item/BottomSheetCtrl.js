@@ -2,7 +2,11 @@
 
 var BottomSheetCtrl = function($scope, $mdBottomSheet, $mdToast, ItemService) {
     var toasty = function(message) {
-        $mdToast.showSimple(message);
+        $mdToast.show(
+            $mdToast.simple()
+                .content(message)
+                .position('top right')
+        );
     };
 
     $scope.equipItem = function(item, charId) {

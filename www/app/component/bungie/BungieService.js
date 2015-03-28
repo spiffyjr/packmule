@@ -2,18 +2,32 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
     var CACHE_MEMBER_TYPE = 'BungieService.activeMemberType';
 
     var self = this;
+    /**
+     * Set once init() is ran and complete.
+     * @type {boolean}
+     */
     var loaded = false;
-
-    this.itemDefs = null;
-    this.bucketDefs = null;
-
+    /**
+     * Customized item definitions which are built from SQLite using a grunt task.
+     * @type {{}}
+     */
+    var itemDefs = {};
+    /**
+     * Customized bucket definitions which are built from SQLite using a grunt task.
+     * @type {{}}
+     */
+    var bucketDefs = {};
+    /**
+     * Hash of current buckets and items.
+     * @type {{}}
+     */
     this.buckets = {};
 
-    var sortBuckets = function(buckets) {
+    var sortBuckets = function() {
         var array = [];
 
         // sort items by tier and then by name
-        _.forEach(buckets, function(bucket, bucketKey) {
+        _.forEach(self.buckets, function(bucket, bucketKey) {
             if (!bucket.bucketName) {
                 delete bucket[bucketKey];
                 return;
@@ -87,90 +101,91 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
         return array;
     };
 
-    var aggregateResult = function(aggregate, buckets, charId) {
-        _.forEach(buckets, function(bucket) {
-            var bucketDef = self.bucketDefs[bucket.bucketHash];
+    // todo: make me more efficient
+    var cleanBucketItems = function(charId) {
+        _.forEach(self.buckets, function(bucket) {
+            for (var i = bucket.items.length - 1; i >= 0; i--) {
+                var item = bucket.items[i];
 
-            if (!bucketDef) {
-                return;
-            }
-
-            if (!aggregate[bucket.bucketHash]) {
-                aggregate[bucket.bucketHash] = {
-                    id: _.uniqueId('b:'),
-                    bucketHash: bucket.bucketHash,
-                    bucketName: bucketDef.bucketName,
-                    bucketOrder: bucketDef.bucketOrder,
-                    category: bucketDef.category,
-                    bucketIdentifier: bucketDef.bucketIdentifier,
-                    items: []
-                };
-            }
-
-            _.forEach(bucket.items, function(item) {
-                var itemDef = self.itemDefs[item.itemHash];
-
-                if (!itemDef) {
-                    return;
+                if (item.charId == charId) {
+                    bucket.items.splice(i, 1);
                 }
-
-                aggregate[bucket.bucketHash].items.push({
-                    id: _.uniqueId('i:'),
-                    charId: (charId == 'vault' ? null : charId),
-                    itemName: itemDef.itemName,
-                    itemType: itemDef.itemType,
-                    classType: itemDef.classType,
-                    bucketTypeHash: itemDef.bucketTypeHash,
-                    tierType: itemDef.tierType,
-                    tierTypeName: itemDef.tierTypeName,
-                    icon: itemDef.icon,
-                    canEquip: item.canEquip,
-                    cannotEquipReason: item.cannotEquipReason,
-                    damageType: item.damageType,
-                    isEquipment: item.isEquipment,
-                    isEquipped: item.isEquipped,
-                    isGridComplete: item.isGridComplete,
-                    itemHash: item.itemHash,
-                    itemInstanceId: item.itemInstanceId,
-                    primaryStat: item.primaryStat,
-                    stackSize: item.stackSize,
-                    stats: item.stats,
-                    transferStatus: item.transferStatus,
-                    hidden: false
-                });
-            });
+            }
         });
-
-        return aggregate;
     };
 
-    var convertInventoryBuckets = function(result) {
+    var addItemToBucket = function(bucketHash, item, charId) {
+        if (!bucketHash) {
+            return null;
+        }
+
+        var bucketDef = bucketDefs[bucketHash];
+
+        if (!self.buckets[bucketHash]) {
+            self.buckets[bucketHash] = {
+                id: _.uniqueId('b:'),
+                bucketHash: bucketHash,
+                bucketName: bucketDef.bucketName,
+                bucketOrder: bucketDef.bucketOrder,
+                category: bucketDef.category,
+                bucketIdentifier: bucketDef.bucketIdentifier,
+                items: []
+            };
+        }
+
+        var itemDef = itemDefs[item.itemHash];
+        var newItem = {
+            id: _.uniqueId('i:'),
+            charId: (charId ? charId : null),
+            itemName: itemDef.itemName,
+            itemType: itemDef.itemType,
+            classType: itemDef.classType,
+            bucketTypeHash: itemDef.bucketTypeHash,
+            tierType: itemDef.tierType,
+            tierTypeName: itemDef.tierTypeName,
+            icon: itemDef.icon,
+            canEquip: item.canEquip,
+            cannotEquipReason: item.cannotEquipReason,
+            damageType: item.damageType,
+            isEquipment: item.isEquipment,
+            isEquipped: item.isEquipped,
+            isGridComplete: item.isGridComplete,
+            itemHash: item.itemHash,
+            itemInstanceId: item.itemInstanceId,
+            primaryStat: item.primaryStat,
+            stackSize: item.stackSize,
+            stats: item.stats,
+            transferStatus: item.transferStatus,
+            hidden: false
+        };
+
+        self.buckets[bucketHash].items.push(newItem);
+    };
+
+    var onInventoryResponse = function(result, charId) {
         var buckets = {};
+
+        cleanBucketItems(charId);
 
         _.forEach(result.data.buckets, function(bucketData) {
             _.forEach(bucketData, function(bucket) {
-                buckets[bucket.bucketHash] = bucket;
+                _.forEach(bucket.items, function(item) {
+                    addItemToBucket(bucket.bucketHash, item, charId);
+                });
             });
         });
 
         return buckets;
     };
 
-    var convertVaultBuckets = function(result) {
+    var onVaultResponse = function(result) {
         var buckets = {};
+
+        cleanBucketItems(null);
 
         _.forEach(result.data.buckets, function(bucket) {
             _.forEach(bucket.items, function(item) {
-                var bucketHash = self.itemDefs[item.itemHash].bucketTypeHash;
-
-                if (!buckets[bucketHash]) {
-                    buckets[bucketHash] = {
-                        items: [],
-                        bucketHash: bucketHash
-                    }
-                }
-
-                buckets[bucketHash].items.push(item);
+                addItemToBucket(itemDefs[item.itemHash].bucketTypeHash, item);
             });
         });
 
@@ -206,11 +221,11 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
                 $http
                     .get('asset/json/item-defs.json')
                     .then(function(result) {
-                        self.itemDefs = result.data;
+                        itemDefs = result.data;
                         return $http.get('asset/json/bucket-defs.json');
                     }, reject)
                     .then(function(result) {
-                        self.bucketDefs = result.data;
+                        bucketDefs = result.data;
                         return BungieClient.findMembershipIds()
                     })
                     .then(function (result) {
@@ -295,74 +310,45 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
                 charIds = _.pluck(_.pluck(self.account.characters, 'characterBase'), 'characterId');
             }
 
-            if (typeof includeVault == 'undefined') {
-                includeVault = true;
-            }
-
             var promises = {};
 
-            _.forEach(charIds, function (cid) {
-                promises[cid] = BungieClient.findCharacterInventory(
-                    self.activeMemberType,
-                    self.activeMemberId,
-                    cid
-                );
+            _.forEach(charIds, function (id) {
+                promises[id] = BungieClient.findCharacterInventory(self.activeMemberType, self.activeMemberId, id);
             });
 
-            if (includeVault) {
+            if (typeof includeVault == 'undefined' || includeVault) {
                 promises.vault = BungieClient.findVault(self.activeMemberType);
             }
 
-            // clear items from previously affected chars
-            var bucketCopy = _.merge({}, self.buckets);
-
-            _.forEach(self.buckets, function(bucket, bucketKey) {
-                _.forEach(bucket.items, function(item, itemKey) {
-                    if ((!item.charId && includeVault) || charIds.indexOf(item.charId) > -1) {
-                        bucketCopy[bucketKey].items.splice(itemKey, 1);
-                    }
-                });
-            });
-
-            var aggregate = {};
-
-            // aggregate responses
             $q.all(promises).then(function(results) {
-                _.forEach(results, function(result, key) {
-                    if (key === 'vault') {
-                        result = convertVaultBuckets(result);
-                    } else {
-                        result = convertInventoryBuckets(result);
-                    }
-
-                    aggregate = aggregateResult(aggregate, result, key);
+                _.forEach(results, function(result, charId) {
+                    charId == 'vault' ? onVaultResponse(result) : onInventoryResponse(result, charId);
                 });
 
-                // merge old unaffected data with new data
-
-                self.buckets = _.merge(bucketCopy, aggregate);
-                resolve();
+                resolve(self.buckets);
             });
         });
     };
 
     this.filterBuckets = function() {
         var filters = ItemFilters.filters;
-        var buckets = _.defaults({}, this.buckets);
+        var buckets = sortBuckets(_.merge({}, self.buckets));
 
         _.forEach(buckets, function (bucket) {
             bucket.hidden = false;
+
+            $filter('bucketCategory')(bucket, filters.category);
 
             _.forEach(bucket.items, function(item) {
                 item.hidden = false;
             });
 
-            bucket.items = $filter('itemName')(bucket.items, filters.name);
-            bucket.items = $filter('itemTier')(bucket.items, filters.quality);
-            bucket.items = $filter('itemDamage')(bucket.items, filters.damage);
-            bucket.items = $filter('itemEquipped')(bucket.items, filters.isEquipped);
-            bucket.items = $filter('itemGridComplete')(bucket.items, filters.isGridComplete);
-            bucket.items = $filter('itemLocation')(bucket.items, filters.location);
+            $filter('itemName')(bucket.items, filters.name);
+            $filter('itemTier')(bucket.items, filters.quality);
+            $filter('itemDamage')(bucket.items, filters.damage);
+            $filter('itemEquipped')(bucket.items, filters.isEquipped);
+            $filter('itemGridComplete')(bucket.items, filters.isGridComplete);
+            $filter('itemLocation')(bucket.items, filters.location);
 
             var hidden = _.where(bucket.items, { hidden: true }).length;
 

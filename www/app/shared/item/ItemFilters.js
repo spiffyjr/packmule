@@ -1,4 +1,6 @@
 var ItemFilters = function($rootScope) {
+    var self = this;
+
     this.filterGroups = {
         armor: [
             'BUCKET_ARMS',
@@ -70,6 +72,22 @@ var ItemFilters = function($rootScope) {
 angular
     .module('app.item')
     .service('ItemFilters', ItemFilters)
+    .filter('bucketCategory', function(ItemFilters) {
+        return function(bucket, categories) {
+            _.forEach(categories, function(value, category) {
+                var groups = ItemFilters.filterGroups[category];
+                if (!groups) {
+                    return;
+                }
+
+                if (!value && groups.indexOf(bucket.bucketIdentifier) > -1) {
+                    bucket.hidden = true;
+                }
+            });
+
+            return bucket;
+        }
+    })
     .filter('itemName', function() {
         return function(items, name) {
             _.forEach(items, function(item) {

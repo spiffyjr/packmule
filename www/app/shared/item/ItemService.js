@@ -11,7 +11,7 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
      * An hash of characters (or vault) and the item affected by the move. Characters use charId and vault uses 'vault'.
      * This is useful to determine space required before the move as well as broadcasting an update event with the
      * characters that were changed.
-     * @type {Array}
+     * @type {{}}
      */
     var affected = {};
     /**
@@ -59,6 +59,9 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
         var needsSpace = [];
 
         _.forEach(affected, function(item, charId) {
+            if (!item) {
+                return;
+            }
             if (charId == 'vault' && self.checkVaultSpace(item) == 0) {
                 needsSpace.push('vault');
             } else if (charId != 'vault' && self.checkInventorySpace(item, charId) == 0) {
@@ -74,10 +77,10 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
         });
 
         if (needsSpace.length > 0) {
-            queue = [];
-            affected = [];
-
             return $q(function(resolve, reject) {
+                queue = [];
+                affected = {};
+
                 reject('Out of slots: ' + needsSpace.join(', '));
             });
         }
@@ -109,24 +112,23 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
 
             promise.then(function() {
                 resolve(successMessage);
-            }, reject);
+                $rootScope.$broadcast('ItemService:updated', Object.keys(affected));
 
-            $rootScope.$broadcast('ItemService:updated', Object.keys(affected));
+                affected = {};
+                queue = [];
+            }, function(message) {
+                reject(message);
 
-            affected = [];
-            queue = [];
+                affected = {};
+                queue = [];
+            });
         });
     };
 
-    var doEquip = function(item) {
+    var doEquip = function(item, charId) {
         return $q(function(resolve, reject) {
-            if (!item.charId) {
-                reject('Error (shimmering void)');
-                return;
-            }
-
             var data = {
-                characterId: item.charId,
+                characterId: charId,
                 itemId: item.itemInstanceId,
                 membershipType: BungieService.account.membershipType
             };
@@ -145,14 +147,6 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
      */
     var doVault = function(item, charId, toVault) {
         return $q(function(resolve, reject) {
-            if (toVault) {
-                console.log('moving ' + item.itemName + ' to vault from ' + charId);
-                item.charId = null;
-            } else {
-                console.log('moving ' + item.itemName + ' to ' + charId + ' from vault');
-                item.charId = charId;
-            }
-
             var data = {
                 characterId: charId,
                 itemId: item.itemInstanceId,
@@ -178,6 +172,7 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
 
         // item is on a character
         if (itemToMove.charId) {
+            affected[itemToMove.charId] = null;
             affected.vault = itemToMove;
             queue.push([doVault, itemToMove, itemToMove.charId, true]);
 
@@ -187,9 +182,15 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
                 queue.push([doVault, itemToMove, destination, false]);
             }
         } else {
+            affected['vault'] = null;
             affected[destination] = itemToMove;
             queue.push([doVault, itemToMove, destination, false]);
         }
+    };
+
+    var equip = function(item, charId) {
+        affected[charId] = null;
+        queue.push([doEquip, item, charId]);
     };
 
     var unequip = function(item) {
@@ -203,7 +204,7 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
             move(replaceWith, item.charId);
         }
 
-        queue.push([doEquip, replaceWith]);
+        equip(replaceWith, item.charId);
     };
 
     this.checkInventorySpace = function(item, charId) {
@@ -244,7 +245,7 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
 
         unequip(item);
         move(item, equipOnCharId);
-        queue.push([doEquip, item]);
+        equip(item, equipOnCharId);
 
         return run(item.itemName + ' equipped');
     };

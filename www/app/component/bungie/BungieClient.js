@@ -58,56 +58,43 @@ var BungieClient = function($rootScope, $q, cordovaHTTP, AuthService) {
                 data = {};
             }
 
-            console.log('sending request: ' + url);
-            console.log('method: ' + method);
-            console.log('headers: ' + JSON.stringify(headers));
-            console.log('data: ' + JSON.stringify(data));
-
             return $q(function(resolve, reject) {
                 start();
 
+                var success = function(response) {
+                    console.log('sending request: ' + url);
+                    console.log('method: ' + method);
+                    console.log('headers: ' + JSON.stringify(headers));
+                    console.log('data: ' + JSON.stringify(data));
+                    console.log(response);
+                    
+                    finish();
+                    response = JSON.parse(response.data);
+
+                    if (response.ErrorCode == 1) {
+                        resolve(response.Response);
+                        return;
+                    }
+                    reject(response.Message);
+                };
+
+                var fail = function(response) {
+                    console.log('sending request: ' + url);
+                    console.log('method: ' + method);
+                    console.log('headers: ' + JSON.stringify(headers));
+                    console.log('data: ' + JSON.stringify(data));
+                    console.log(response);
+
+                    finish();
+                    reject(response);
+                };
+
                 switch(method.toLowerCase()) {
                     case 'get':
-                        cordovaHTTP
-                            .get(url, data, headers)
-                            .then(function(response) {
-                                finish();
-                                response = JSON.parse(response.data);
-
-                                console.log(response);
-
-                                if (response.ErrorCode == 1) {
-                                    resolve(response.Response);
-                                    return;
-                                }
-                                reject(response);
-                            }, function(response) {
-                                finish();
-                                console.log(response);
-                                reject(response);
-                            });
+                        cordovaHTTP.get(url, data, headers).then(success, fail);
                         break;
                     case 'post':
-                        cordovaHTTP
-                            .post(url, data, headers)
-                            .then(function(response) {
-                                console.log(response);
-
-                                finish();
-                                response = JSON.parse(response.data);
-
-                                if (response.ErrorCode == 1) {
-                                    resolve(response.Response);
-                                    return;
-                                }
-                                console.log('Error reponse: ' + response.Message);
-                                reject(response.Message);
-                            }, function(response) {
-                                console.log(response);
-
-                                finish();
-                                reject(response);
-                            });
+                        cordovaHTTP.post(url, data, headers).then(success, fail);
                         break;
                 }
             });
