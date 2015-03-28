@@ -23,6 +23,9 @@ var RightNavCtrl = function($scope, $timeout, $mdSidenav, BungieService, ItemFil
 
     $scope.$on('BungieService:init', function() {
         $scope.characters = BungieService.account.characters;
+        _.forEach($scope.characters, function(character) {
+            $scope.data.location[character.characterBase.characterId] = true;
+        });
     });
 
     $scope.$watch('data', apply, true);

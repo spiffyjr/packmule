@@ -41,7 +41,9 @@ var ItemFilters = function($rootScope) {
             solar: true,
             void: true
         },
-        location: 'any',
+        location: {
+            vault: true
+        },
         quality: {
             exotic: true,
             legendary: true,
@@ -186,14 +188,10 @@ angular
     })
     .filter('itemLocation', function() {
         return function(item, location) {
-            if (location == 'vault') {
-                if (item.charId) {
-                    item.hidden = true;
-                }
-            } else if (location != 'any') {
-                if (location != item.charId) {
-                    item.hidden = true;
-                }
+            if (item.charId && !location[item.charId]) {
+                item.hidden = true;
+            } else if (!item.charId && !location.vault) {
+                item.hidden = true;
             }
             return item;
         }

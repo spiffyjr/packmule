@@ -33,14 +33,12 @@
         <md-toolbar class="md-primary md-hue-1" layout="row">
             <div class="md-toolbar-tools">Location</div>
         </md-toolbar>
-        <md-radio-group ng-model="data.location">
-            <md-radio-button value="any">Any</md-radio-button>
-            <md-radio-button ng-repeat="character in characters track by character.characterBase.characterId"
-                             ng-value="character.characterBase.characterId">
-                {{::getCharacter(character.characterBase.characterId)}}
-            </md-radio-button>
-            <md-radio-button value="vault">Vault</md-radio-button>
-        </md-radio-group>
+        <md-checkbox ng-repeat="character in characters track by character.characterBase.characterId"
+                     ng-model="data.location[character.characterBase.characterId]"
+                     ng-value="true">
+            {{::getCharacter(character.characterBase.characterId)}}
+        </md-checkbox>
+        <md-checkbox ng-model="data.location.vault" value="vault">Vault</md-checkbox>
 
         <!-- category -->
         <md-toolbar class="md-primary md-hue-1" layout="row">
