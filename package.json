@@ -17,8 +17,6 @@
     "sqlite3": "^3.0.5"
   },
   "cordovaPlugins": [
-    "com.bez4pieci.cookies",
-    "com.synconset.cordovaHTTP",
     "io.packmule.cookies",
     "org.apache.cordova.inappbrowser",
     {

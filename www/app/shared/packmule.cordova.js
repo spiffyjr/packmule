@@ -1,11 +1,11 @@
 (function() {
     try {
-        angular.module('cordovaHTTP');
+        angular.module('packmule.cordova');
     } catch (e) {
         angular
-            .module('cordovaHTTP', [])
-            .service('cordovaHTTP', function($q, $http) {
-                var request = function(method, url, data, headers) {
+            .module('packmule.cordova', [])
+            .service('packmuleHttp', function($q, $http) {
+                var request = function(method, url, headers, data) {
                     return $q(function(resolve, reject) {
                         var request = {
                             method: method,
@@ -22,12 +22,12 @@
                     });
                 };
 
-                this.get = function(url, data, headers) {
-                    return request('get', url, data, headers)
+                this.get = function(url, headers) {
+                    return request('get', url, headers)
                 };
 
-                this.post = function(url, data, headers) {
-                    return request('post', url, data, headers);
+                this.post = function(url, headers, data) {
+                    return request('post', url, headers, data);
                 }
             });
     }

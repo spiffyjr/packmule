@@ -1,4 +1,4 @@
-var BungieClient = function($rootScope, $q, cordovaHTTP, AuthService) {
+var BungieClient = function($rootScope, $q, packmuleHttp, AuthService) {
     var BUNGIE_BASE_URL = 'https://www.bungie.net/Platform/';
 
     var EP_ACCOUNT = 'Destiny/{mtype}/Account/{mid}/?definitions={d}';
@@ -42,32 +42,10 @@ var BungieClient = function($rootScope, $q, cordovaHTTP, AuthService) {
         };
 
         var send = function(cookie) {
-            var url = buildUrl(endpoint, endpointParams);
-            var headers = {
-                'content-type': 'application/json',
-                'x-requested-with': 'XMLHttpRequest',
-                'x-csrf': AuthService.getCsrf()
-            };
-
-            // Required for Android
-            if (cookie) {
-                headers.cookie = cookie;
-            }
-
-            if (!data) {
-                data = {};
-            }
-
             return $q(function(resolve, reject) {
-                start();
-
                 var success = function(response) {
-                    console.log('sending request: ' + url);
-                    console.log('method: ' + method);
-                    console.log('headers: ' + JSON.stringify(headers));
-                    console.log('data: ' + JSON.stringify(data));
-                    console.log(response);
-                    
+                    console.log('success: ' + url);
+
                     finish();
                     response = JSON.parse(response.data);
 
@@ -79,26 +57,40 @@ var BungieClient = function($rootScope, $q, cordovaHTTP, AuthService) {
                 };
 
                 var fail = function(response) {
-                    console.log('sending request: ' + url);
-                    console.log('method: ' + method);
-                    console.log('headers: ' + JSON.stringify(headers));
-                    console.log('data: ' + JSON.stringify(data));
-                    console.log(response);
+                    console.log('fail: ' + url);
 
                     finish();
                     reject(response);
                 };
 
+                var url = buildUrl(endpoint, endpointParams);
+                var headers = {
+                    'content-type': 'application/json',
+                    'x-requested-with': 'XMLHttpRequest',
+                    'x-csrf': AuthService.getCsrf()
+                };
+
+                // Required for Android
+                if (cookie) {
+                    headers.cookie = cookie;
+                }
+
+                if (!data) {
+                    data = {};
+                }
+
                 switch(method.toLowerCase()) {
                     case 'get':
-                        cordovaHTTP.get(url, data, headers).then(success, fail);
+                        packmuleHttp.get(url, headers, data).then(success, fail);
                         break;
                     case 'post':
-                        cordovaHTTP.post(url, data, headers).then(success, fail);
+                        packmuleHttp.post(url, headers, data).then(success, fail);
                         break;
                 }
             });
         };
+
+        start();
 
         if (packmule.Platform.isMobile()) {
             return $q(function(resolve, reject) {

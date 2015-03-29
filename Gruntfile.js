@@ -1,7 +1,7 @@
 // JS files to uglify
 var js_files = {
     'www/build/app.min.js': [
-        'www/app/shared/cordovahttp.js',
+        'www/app/shared/packmule.cordova.js',
 
         'www/app/app.debug.js',
         'www/app/app.module.js',

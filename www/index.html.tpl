@@ -27,7 +27,7 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="debug.js"></script>
 
-    <script type="text/javascript" src="app/shared/cordovahttp.js"></script>
+    <script type="text/javascript" src="app/shared/packmule.cordova.js"></script>
     <script type="text/javascript" src="app/app.module.js"></script>
     <script type="text/javascript" src="app/app.route.js"></script>
 

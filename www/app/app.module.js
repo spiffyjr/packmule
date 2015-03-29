@@ -18,7 +18,8 @@ if (DEBUG) {
 angular.module(
     'app',
     [
-        'cordovaHTTP',
+        'packmule.cordova',
+
         'hmTouchEvents',
         'ngAnimate',
         'ngMaterial',

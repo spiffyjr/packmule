@@ -251,9 +251,10 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
                         self.account = result.data;
                         self.accountDefs = result.definitions;
 
-                        $rootScope.$broadcast('BungieService:init');
                         loaded = true;
-                        resolve()
+                        resolve();
+
+                        $rootScope.$broadcast('BungieService:init');
                     }, reject);
             }
         });

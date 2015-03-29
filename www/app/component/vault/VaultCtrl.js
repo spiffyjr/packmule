@@ -2,6 +2,10 @@
 
 var VaultCtrl = function($scope, BungieService) {
     var load = function(charIds, vault) {
+        console.log('*****************************');
+        console.log('load called...');
+        console.log('*****************************');
+
         if (!BungieService.account) {
             return;
         }
@@ -13,9 +17,7 @@ var VaultCtrl = function($scope, BungieService) {
             });
     };
 
-    $scope.$on('BungieService:init', function() {
-        load();
-    });
+    $scope.$on('BungieService:init', function() { load(); });
     $scope.$on('ItemService:updated', function(e, result) {
         var charIds = [];
         var vault = false;
@@ -29,8 +31,6 @@ var VaultCtrl = function($scope, BungieService) {
     $scope.$on('ItemFilters:updated', function() {
         $scope.buckets = BungieService.filterBuckets();
     });
-
-    load();
 };
 
 angular

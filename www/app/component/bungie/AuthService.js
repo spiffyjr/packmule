@@ -2,6 +2,10 @@ var AuthService = function($q, $rootScope, $interval) {
     var csrf;
 
     var loginSuccess = function(value) {
+        console.log('loginSuccess');
+        if (csrf) {
+            return;
+        }
         csrf = value;
         $rootScope.$broadcast('AuthService:loginSuccess');
     };
@@ -19,10 +23,10 @@ var AuthService = function($q, $rootScope, $interval) {
                     var matches;
                     if (matches = cookie[0].match(/bungled=(\d+)/)) {
                         $interval.cancel(stop);
-
-                        loginSuccess(matches[1]);
                         win.close();
                         deferred.resolve();
+
+                        loginSuccess(matches[1]);
                     }
                 });
             }, 100);
@@ -38,9 +42,10 @@ var AuthService = function($q, $rootScope, $interval) {
 
                 chrome.cookies.get({url: 'https://www.bungie.net', name: 'bungled'}, function(bungled) {
                     if (bungled) {
-                        loginSuccess(bungled.value);
                         $interval.cancel(stop);
                         deferred.resolve();
+
+                        loginSuccess(bungled.value);
                     }
                 });
             });
