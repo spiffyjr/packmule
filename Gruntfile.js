@@ -7,7 +7,7 @@ var js_files = {
         'www/app/app.module.js',
         'www/app/app.route.js',
 
-        'www/app/shared/AppCtrl.js',
+        'www/app/AppCtrl.js',
 
         'www/app/shared/item/BottomSheetCtrl.js',
         'www/app/shared/item/BucketListDirective.js',
@@ -20,6 +20,8 @@ var js_files = {
 
         'www/app/shared/platform.js',
         'www/app/shared/util.js',
+
+        'www/app/component/ad/AdService.js',
 
         'www/app/component/auth/LoginCtrl.js',
         'www/app/component/auth/LogoutCtrl.js',
@@ -38,8 +40,15 @@ var js_files = {
         'www/asset/lib/angular-animate/angular-animate.js',
         'www/asset/lib/angular-aria/angular-aria.js',
         'www/asset/lib/angular-hammer/angular-hammer.js',
-        'www/asset/lib/angular-material/angular-material.js',
-        'www/asset/lib/angular-ui-router/release/angular-ui-router.js'
+        'www/asset/lib/angular-ui-router/release/angular-ui-router.js',
+
+        'www/asset/lib/angular-material/angular-material.js'
+
+        //'www/asset/lib/angular-sanitize/angular-sanitize.js',
+        //'www/asset/js/angular-material.js',
+
+        //'www/asset/lib/ionic/release/js/ionic.js',
+        //'www/asset/lib/ionic/release/js/ionic-angular.js'
     ]
 };
 
@@ -116,7 +125,6 @@ module.exports = function(grunt) {
         uglify: {
             options: {
                 screwIE8: true,
-                mangle: false,
                 dead_code: true,
                 compress: {
                     drop_console: true,

@@ -12,4 +12,4 @@ var LoginCtrl = function($scope, $state, AuthService) {
 
 angular
     .module('app.auth')
-    .controller('LoginCtrl', LoginCtrl);
+    .controller('LoginCtrl', ['$scope', '$state', 'AuthService', LoginCtrl]);

@@ -54,4 +54,4 @@ var MenuCtrl = function($scope, $state, $mdSidenav, $mdMedia, AuthService, Bungi
 
 angular
     .module('app.layout')
-    .controller('MenuCtrl', MenuCtrl);
+    .controller('MenuCtrl', ['$scope', '$state', '$mdSidenav', '$mdMedia', 'AuthService', 'BungieService', MenuCtrl]);

@@ -252,7 +252,7 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
                         self.accountDefs = result.definitions;
 
                         loaded = true;
-                        resolve();
+                        resolve()
 
                         $rootScope.$broadcast('BungieService:init');
                     }, reject);
@@ -314,7 +314,7 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
             var promises = {};
 
             _.forEach(charIds, function (id) {
-                promises[id] = BungieClient.findCharacterInventory(self.activeMemberType, self.activeMemberId, id);
+                //promises[id] = BungieClient.findCharacterInventory(self.activeMemberType, self.activeMemberId, id);
             });
 
             if (typeof includeVault == 'undefined' || includeVault) {
@@ -347,4 +347,4 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
 
 angular
     .module('app.bungie')
-    .service('BungieService', BungieService);
+    .service('BungieService', ['$q', '$rootScope', '$http', '$filter', 'BungieClient', 'ItemFilters', BungieService]);

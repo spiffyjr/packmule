@@ -264,4 +264,4 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
 
 angular
     .module('app.item')
-    .service('ItemService', ItemService);
+    .service('ItemService', ['$q', '$rootScope', '$timeout', 'AuthService', 'BungieClient', 'BungieService', ItemService]);

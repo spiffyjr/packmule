@@ -1,5 +1,6 @@
 'use strict';
 
+angular.module('app.ad', []);
 angular.module('app.auth', []);
 angular.module('app.bungie', ['app.auth']);
 angular.module('app.item', []);
@@ -19,11 +20,14 @@ angular.module(
     'app',
     [
         'packmule.cordova',
+        //'ionic',
 
         'hmTouchEvents',
         'ngAnimate',
         'ngMaterial',
+        //'ngSanitize',
         'ui.router',
+        'app.ad',
         'app.auth',
         'app.bungie',
         'app.item',
@@ -31,16 +35,12 @@ angular.module(
         'app.test',
         'app.vault'
     ])
-    .run(function($rootScope, $state, AuthService) {
-        $rootScope.$on('$stateChangeStart',
-            function(e, toState) {
-                if (!AuthService.isAuthorized() && toState.name != 'app.login') {
-                    console.log('redirecting to login');
-                    e.preventDefault();
-                    return $state.go('app.login');
-                }
-            });
-    });
+    .config(['$animateProvider', function($animateProvider) {
+        $animateProvider.classNameFilter(/animate/);
+    }])
+    .run(['AdService', function(AdService) {
+        AdService.init();
+    }]);
 
 document.addEventListener(window.cordova ? 'deviceready' : 'DOMContentLoaded', function() {
     var bootstrap = function() {

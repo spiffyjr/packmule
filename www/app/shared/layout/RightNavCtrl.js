@@ -1,4 +1,4 @@
-var RightNavCtrl = function($scope, $timeout, $mdSidenav, BungieService, ItemFilters) {
+var RightNavCtrl = function($scope, BungieService, ItemFilters) {
     var apply = function(value) {
         ItemFilters.set(value);
     };
@@ -33,4 +33,4 @@ var RightNavCtrl = function($scope, $timeout, $mdSidenav, BungieService, ItemFil
 
 angular
     .module('app.layout')
-    .controller('RightNavCtrl', RightNavCtrl);
+    .controller('RightNavCtrl', ['$scope', 'BungieService', 'ItemFilters', RightNavCtrl]);

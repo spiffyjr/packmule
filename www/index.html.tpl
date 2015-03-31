@@ -21,8 +21,15 @@
     <script type="text/javascript" src="asset/lib/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="asset/lib/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="asset/lib/angular-hammer/angular-hammer.js"></script>
-    <script type="text/javascript" src="asset/lib/angular-material/angular-material.js"></script>
+    <script type="text/javascript" src="asset/lib/angular-sanitize/angular-sanitize.js"></script>
     <script type="text/javascript" src="asset/lib/angular-ui-router/release/angular-ui-router.js"></script>
+
+    <script type="text/javascript" src="asset/lib/angular-material/angular-material.js"></script>
+
+    <!--<script type="text/javascript" src="asset/js/angular-material.js"></script>
+
+    <script type="text/javascript" src="asset/lib/ionic/release/js/ionic.js"></script>
+    <script type="text/javascript" src="asset/lib/ionic/release/js/ionic-angular.js"></script>-->
 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="debug.js"></script>
@@ -31,7 +38,7 @@
     <script type="text/javascript" src="app/app.module.js"></script>
     <script type="text/javascript" src="app/app.route.js"></script>
 
-    <script type="text/javascript" src="app/shared/AppCtrl.js"></script>
+    <script type="text/javascript" src="app/AppCtrl.js"></script>
 
     <script type="text/javascript" src="app/shared/item/BottomSheetCtrl.js"></script>
     <script type="text/javascript" src="app/shared/item/BucketListDirective.js"></script>
@@ -44,6 +51,8 @@
 
     <script type="text/javascript" src="app/shared/platform.js"></script>
     <script type="text/javascript" src="app/shared/util.js"></script>
+
+    <script type="text/javascript" src="app/component/ad/AdService.js"></script>
 
     <script type="text/javascript" src="app/component/auth/LoginCtrl.js"></script>
     <script type="text/javascript" src="app/component/auth/LogoutCtrl.js"></script>

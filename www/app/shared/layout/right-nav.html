@@ -1,4 +1,4 @@
-<md-sidenav class="md-sidenav-right md-whiteframe-z2"
+<md-sidenav class="animate md-sidenav-right"
             md-component-id="right"
             md-is-locked-open="$mdMedia('gt-md')"
             layout="column" flex>
@@ -18,14 +18,14 @@
             <md-button class="md-accent" ng-click="data.name = ''">Clear</md-button>
         </div>
         <div layout="row">
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.isGridComplete" aria-label="Upgraded">
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.isGridComplete" aria-label="Upgraded">
                 XP Complete
             </md-checkbox>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.isGridOpen" aria-label="Upgraded">
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.isGridOpen" aria-label="Upgraded">
                 XP Required
             </md-checkbox>
         </div>
-        <md-checkbox class="md-accent md-hue-3" ng-model="data.isEquipped" aria-label="Equipped">
+        <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.isEquipped" aria-label="Equipped">
             Equipped
         </md-checkbox>
 
@@ -33,12 +33,12 @@
         <md-toolbar class="md-primary md-hue-1" layout="row">
             <div class="md-toolbar-tools">Location</div>
         </md-toolbar>
-        <md-checkbox ng-repeat="character in characters track by character.characterBase.characterId"
+        <md-checkbox md-no-ink ng-repeat="character in characters track by character.characterBase.characterId"
                      ng-model="data.location[character.characterBase.characterId]"
                      ng-value="true">
             {{::getCharacter(character.characterBase.characterId)}}
         </md-checkbox>
-        <md-checkbox ng-model="data.location.vault" value="vault">Vault</md-checkbox>
+        <md-checkbox md-no-ink ng-model="data.location.vault" value="vault">Vault</md-checkbox>
 
         <!-- category -->
         <md-toolbar class="md-primary md-hue-1" layout="row">
@@ -47,10 +47,10 @@
             </div>
         </md-toolbar>
         <div layout="row" layout-wrap>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.category.weapons" flex="35">Weapons</md-checkbox>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.category.armor" flex="35">Armor</md-checkbox>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.category.vanity" flex="35">Vanity</md-checkbox>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.category.other" flex="35">Other</md-checkbox>
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.category.weapons" flex="35">Weapons</md-checkbox>
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.category.armor" flex="35">Armor</md-checkbox>
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.category.vanity" flex="35">Vanity</md-checkbox>
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.category.other" flex="35">Other</md-checkbox>
         </div>
 
         <!-- quality -->
@@ -60,11 +60,11 @@
             </div>
         </md-toolbar>
         <div layout="row" layout-wrap>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.quality.exotic" flex="35">Exotic</md-checkbox>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.quality.legendary" flex="35">Legendary</md-checkbox>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.quality.rare" flex="35">Rare</md-checkbox>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.quality.uncommon" flex="35">Uncommon</md-checkbox>
-            <md-checkbox class="md-accent md-hue-3" ng-model="data.quality.common" flex="35">Common</md-checkbox>
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.quality.exotic" flex="35">Exotic</md-checkbox>
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.quality.legendary" flex="35">Legendary</md-checkbox>
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.quality.rare" flex="35">Rare</md-checkbox>
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.quality.uncommon" flex="35">Uncommon</md-checkbox>
+            <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.quality.common" flex="35">Common</md-checkbox>
         </div>
 
         <!-- damage -->
@@ -75,10 +75,10 @@
                 </div>
             </md-toolbar>
             <div layout="row" layout-wrap>
-                <md-checkbox class="md-accent md-hue-3" ng-model="data.damage.kinetic" flex="35">Kinetic</md-checkbox>
-                <md-checkbox class="md-accent md-hue-3" ng-model="data.damage.arc" flex="35">Arc</md-checkbox>
-                <md-checkbox class="md-accent md-hue-3" ng-model="data.damage.solar" flex="35">Solar</md-checkbox>
-                <md-checkbox class="md-accent md-hue-3" ng-model="data.damage.void" flex="35">Void</md-checkbox>
+                <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.damage.kinetic" flex="35">Kinetic</md-checkbox>
+                <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.damage.arc" flex="35">Arc</md-checkbox>
+                <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.damage.solar" flex="35">Solar</md-checkbox>
+                <md-checkbox md-no-ink class="md-accent md-hue-3" ng-model="data.damage.void" flex="35">Void</md-checkbox>
             </div>
         </div>
     </md-content>

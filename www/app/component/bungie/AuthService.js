@@ -99,4 +99,4 @@ var AuthService = function($q, $rootScope, $interval) {
 
 angular
     .module('app.bungie')
-    .service('AuthService', AuthService);
+    .service('AuthService', ['$q', '$rootScope', '$interval', AuthService]);

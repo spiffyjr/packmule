@@ -7,4 +7,4 @@ var LogoutCtrl = function($scope, $state, AuthService, BungieService) {
 
 angular
     .module('app.auth')
-    .controller('LogoutCtrl', LogoutCtrl);
+    .controller('LogoutCtrl', ['$scope', '$state', 'AuthService', 'BungieService', LogoutCtrl]);

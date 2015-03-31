@@ -17,11 +17,18 @@
     "sqlite3": "^3.0.5"
   },
   "cordovaPlugins": [
-    "io.packmule.cookies",
-    "org.apache.cordova.inappbrowser",
     {
-      "id": "org.crosswalk.engine",
-      "locator": "./engine/cordova-crosswalk-engine-c0.6.2"
-    }
-  ]
+      "id": "io.packmule.cookies",
+      "locator": "tasks/io.packmule.cookies"
+    },
+    {
+      "id": "com.danielcwilson.plugins.googleanalytics",
+      "locator": "https://github.com/danwilson/google-analytics-plugin.git"
+    },
+    "org.apache.cordova.inappbrowser",
+    "com.google.cordova.admob"
+  ],
+  "dependencies": {
+    "angular-sanitize": "^1.3.15"
+  }
 }

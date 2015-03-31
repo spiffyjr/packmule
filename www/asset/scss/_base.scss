@@ -1,6 +1,8 @@
 html, body {
   font-family: 'Ubuntu', sans-serif;
   font-size: 14px;
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
 }
 
 #loading-bar {
@@ -37,4 +39,8 @@ html, body {
   min-width: 24px;
   text-align: center;
   font-size: 18px;
+}
+
+.md-ripple-container, .md-ripple-placed {
+  transition: none;
 }

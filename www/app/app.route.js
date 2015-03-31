@@ -1,5 +1,5 @@
 angular.module('app')
-    .config(function ($stateProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('app', {
                 url: '/app',
@@ -33,4 +33,6 @@ angular.module('app')
                     }
                 }
             });
-    });
+
+        $urlRouterProvider.otherwise('/app/login');
+    }]);

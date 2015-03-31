@@ -4,7 +4,7 @@
     } catch (e) {
         angular
             .module('packmule.cordova', [])
-            .service('packmuleHttp', function($q, $http) {
+            .service('packmuleHttp', ['$q', '$http', function($q, $http) {
                 var request = function(method, url, headers, data) {
                     return $q(function(resolve, reject) {
                         var request = {
@@ -29,6 +29,6 @@
                 this.post = function(url, headers, data) {
                     return request('post', url, headers, data);
                 }
-            });
+            }]);
     }
 })();

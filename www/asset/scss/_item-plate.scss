@@ -1,9 +1,11 @@
 @import '_variables';
 
 .bucket-header {
-  &.ng-hide {
-    display: none;
-  }
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 8px 0 8px 0;
 }
 
 #item-sheet {
@@ -17,7 +19,7 @@
 }
 
 .item-plate {
-  color: #fff;
+  border: 4px solid #ddd;
   cursor: pointer;
   box-sizing: border-box;
   position: relative;
@@ -51,17 +53,17 @@
     display: none;
   }
 
-  .background {
-    border: 4px solid #ddd;
-    margin: 4px;
+  &.equipped {
+    opacity: 0.50;
+  }
 
-    &.grid-complete {
-      border: 4px solid rgb(245, 220, 86);
-    }
-
-    &.equipped {
-      opacity: 0.50;
-    }
+  .header {
+    color: #fff;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
 
     &.tier-exotic {
       background: rgba(206, 174, 51, 1);
@@ -82,39 +84,34 @@
     &.tier-common {
       background: rgba(195, 188, 180, 1);
     }
+
+    .icon {
+      height: 32px;
+      width: 32px;
+      padding: 4px;
+      vertical-align: middle;
+    }
   }
 
-  .header {
-    background-color: rgba(0, 0, 0, 0.25);
-    height: 24px;
-    padding: 4px 5px 0 5px;
-    margin-bottom: 4px;
-    display: flex;
-    flex-direction: row;
-    z-index: 5;
+  .footer {
+    background-color: #eee;
+    padding: 5px;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-all;
+    white-space: nowrap;
+    width: 100%;
 
-    .header-left {
-      text-align: left;
-      flex: 75%;
-
-      &.location {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        word-break: break-all;
-        white-space: nowrap;
-      }
+    &.light-level {
+      color: rgba(245, 220, 86, 1);
     }
 
-    .header-right {
-      flex: 25%;
-      text-align: right;
-
-      &.light-level {
-        color: rgba(245, 220, 86, 1);
-      }
+    .primary-stat {
+      text-shadow: 1px 1px 0 #000;
 
       &.arc {
-        color: rgb(133,197,236);
+        color: rgb(133, 197, 236);
       }
 
       &.kinetic {
@@ -122,32 +119,13 @@
       }
 
       &.solar {
-        color: rgb(242,114,27);
+        color: rgb(242, 114, 27);
       }
 
       &.void {
-        color: rgb(177,132,197);
+        color: rgb(177, 132, 197);
       }
     }
-  }
-
-  .icon {
-    height: 36px;
-    width: 36px;
-  }
-
-  .footer {
-    background-color: rgba(0, 0, 0, 0.25);
-    display: block;
-    height: 24px;
-    text-align: left;
-    padding: 4px 5px 0 5px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: break-all;
-    white-space: nowrap;
-    width: 100%;
-    z-index: 5;
 
     .emblem {
       height: 18px;

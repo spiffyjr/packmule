@@ -74,8 +74,8 @@ var ItemFilters = function($rootScope) {
 
 angular
     .module('app.item')
-    .service('ItemFilters', ItemFilters)
-    .filter('bucketFilter', function($filter) {
+    .service('ItemFilters', ['$rootScope', ItemFilters])
+    .filter('bucketFilter', ['$filter', function($filter) {
         return function(bucket, filters) {
             bucket.hidden = false;
 
@@ -84,8 +84,8 @@ angular
 
             return bucket;
         }
-    })
-    .filter('bucketItemsFilter', function($filter) {
+    }])
+    .filter('bucketItemsFilter', ['$filter', function($filter) {
         return function(items, filters) {
             _.forEach(items, function(item) {
                 item.hidden = false;
@@ -100,8 +100,8 @@ angular
             });
             return items;
         };
-    })
-    .filter('bucketCategory', function(ItemFilters) {
+    }])
+    .filter('bucketCategory', ['ItemFilters', function(ItemFilters) {
         return function(bucket, categories) {
             _.forEach(categories, function(value, category) {
                 var groups = ItemFilters.filterGroups[category];
@@ -115,7 +115,7 @@ angular
             });
             return bucket;
         }
-    })
+    }])
     .filter('bucketEmpty', function() {
         return function(bucket) {
             if (_.where(bucket.items, {hidden: true}).length == bucket.items.length) {

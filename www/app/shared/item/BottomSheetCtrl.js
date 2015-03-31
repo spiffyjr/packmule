@@ -26,4 +26,4 @@ var BottomSheetCtrl = function($scope, $mdBottomSheet, $mdToast, ItemService) {
 
 angular
     .module('app.item')
-    .controller('BottomSheetCtrl', BottomSheetCtrl);
+    .controller('BottomSheetCtrl', ['$scope', '$mdBottomSheet', '$mdToast', 'ItemService', BottomSheetCtrl]);

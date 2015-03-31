@@ -2,10 +2,6 @@
 
 var VaultCtrl = function($scope, BungieService) {
     var load = function(charIds, vault) {
-        console.log('*****************************');
-        console.log('load called...');
-        console.log('*****************************');
-
         if (!BungieService.account) {
             return;
         }
@@ -35,4 +31,4 @@ var VaultCtrl = function($scope, BungieService) {
 
 angular
     .module('app.vault')
-    .controller('VaultCtrl', VaultCtrl);
+    .controller('VaultCtrl', ['$scope', 'BungieService', VaultCtrl]);

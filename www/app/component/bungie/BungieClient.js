@@ -134,4 +134,4 @@ var BungieClient = function($rootScope, $q, packmuleHttp, AuthService) {
 
 angular
     .module('app.bungie')
-    .service('BungieClient', BungieClient);
+    .service('BungieClient', ['$rootScope', '$q', 'packmuleHttp', 'AuthService', BungieClient]);
