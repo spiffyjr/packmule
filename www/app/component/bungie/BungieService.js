@@ -314,7 +314,7 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
             var promises = {};
 
             _.forEach(charIds, function (id) {
-                //promises[id] = BungieClient.findCharacterInventory(self.activeMemberType, self.activeMemberId, id);
+                promises[id] = BungieClient.findCharacterInventory(self.activeMemberType, self.activeMemberId, id);
             });
 
             if (typeof includeVault == 'undefined' || includeVault) {

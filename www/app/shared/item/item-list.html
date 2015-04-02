@@ -1,23 +1,25 @@
 <div class="item-list">
-    <div class="item-plate" ng-class="::{equipped: item.isEquipped, 'grid-complete': item.isGridComplete}"
+    <div class="item-plate"
          ng-repeat="item in items track by item.id"
          ng-hide="item.hidden"
          hm-tap="showBottomSheet(item)">
-        <div class="header tier-{{::(item.tierTypeName|lowercase)}}">
-            <img class="icon" ng-src="http://www.bungie.net{{::item.icon}}" /> {{::item.itemName}}
-        </div>
-        <div class="footer" layout="row" flex>
-            <!--<img class="emblem" ng-src="http://www.bungie.net{{::getCharacterEmblem(item.charId)}}" ng-if="::item.charId" />
-            <i class="fa fa-bank" ng-if="::!item.charId"></i>-->
-            <div class="character-name">{{::getCharacter(item.charId)}}</div>
-
-            <div class="primary-stat" flex
-                 ng-if="::(item.itemType == 3 && item.primaryStat)"
-                 ng-class="::{arc: item.damageType == 2, solar: item.damageType == 3, void: item.damageType == 4}">
-                {{::item.primaryStat.value}}
+        <div class="margin" ng-class="::{equipped: item.isEquipped, 'grid-complete': item.isGridComplete}">
+            <div class="header tier-{{::(item.tierTypeName|lowercase)}}">
+                <img class="icon" ng-src="http://www.bungie.net{{::item.icon}}" /> {{::item.itemName}}
             </div>
-            <div class="light-level" ng-if="::item.itemType == 2">{{::getLightLevel(item)}}</div>
-            <div class="stack-size" ng-if="::(item.stackSize > 1)">{{::item.stackSize}}</div>
+            <div class="footer" layout="row" flex>
+                <img class="icon" ng-src="http://www.bungie.net{{::getCharacterEmblem(item.charId)}}" ng-if="::item.charId" />
+                <i class="icon fa fa-bank" ng-if="::!item.charId"></i>
+                <div class="character-name" flex>{{::getCharacter(item.charId)}}</div>
+
+                <div class="primary-stat"
+                     ng-if="::(item.itemType == 3 && item.primaryStat)"
+                     ng-class="::{arc: item.damageType == 2, solar: item.damageType == 3, void: item.damageType == 4}">
+                    {{::item.primaryStat.value}}
+                </div>
+                <div class="light-level" ng-if="::item.itemType == 2">{{::getLightLevel(item)}}</div>
+                <div class="stack-size" ng-if="::(item.stackSize > 1)">{{::item.stackSize}}</div>
+            </div>
         </div>
     </div>
 </div>

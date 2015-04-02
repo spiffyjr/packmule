@@ -12,7 +12,7 @@ var ItemListDirective = function() {
                 $scope.accountDefs = BungieService.accountDefs;
                 $scope.getCharacter = function(charId) {
                     if (!charId) {
-                        return 'In Vault';
+                        return 'Vault';
                     }
 
                     var character = BungieService.getCharacterById(charId);
