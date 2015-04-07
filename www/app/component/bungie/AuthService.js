@@ -1,8 +1,8 @@
 var AuthService = function($q, $rootScope, $interval) {
     var csrf;
+    var self = this;
 
     var loginSuccess = function(value) {
-        console.log('loginSuccess');
         if (csrf) {
             return;
         }
@@ -10,46 +10,48 @@ var AuthService = function($q, $rootScope, $interval) {
         $rootScope.$broadcast('AuthService:loginSuccess');
     };
 
-    var loginMobile = function(deferred, type) {
-        var url = 'https://www.bungie.net/en/User/SignIn/' + type;
-        var win = window.open(url, '_blank', 'zoom=no,clearcache=no,toolbar=yes,location=yes');
+    var loginMobile = function(type) {
+        return $q(function(resolve) {
+            var url = 'https://www.bungie.net/en/User/SignIn/' + type;
+            var win = window.open(url, '_blank', 'zoom=no,clearcache=no,toolbar=yes,location=yes');
 
-        win.addEventListener('loadstart', function(event) {
-            if (event.url != url) {
-                return;
-            }
+            win.addEventListener('loadstart', function(event) {
+                if (event.url != url) {
+                    return;
+                }
+                var stop = $interval(function() {
+                    win.executeScript({code: 'document.cookie'}, function(cookie) {
+                        var matches;
+                        if (matches = cookie[0].match(/bungled=(\d+)/)) {
+                            $interval.cancel(stop);
+                            win.close();
+                            loginSuccess(matches[1]);
+
+                            resolve();
+                        }
+                    });
+                }, 100);
+            });
+        });
+    };
+
+    var loginChrome = function() {
+        return $q(function(resolve) {
             var stop = $interval(function() {
-                win.executeScript({code: 'document.cookie'}, function(cookie) {
-                    var matches;
-                    if (matches = cookie[0].match(/bungled=(\d+)/)) {
-                        $interval.cancel(stop);
-                        win.close();
-                        deferred.resolve();
+                chrome.cookies.get({url: 'https://www.bungie.net', name: 'bungleme'}, function(bungleme) {
+                    if (bungleme) {
+                        chrome.cookies.get({url: 'https://www.bungie.net', name: 'bungled'}, function (bungled) {
+                            if (bungled) {
+                                $interval.cancel(stop);
+                                loginSuccess(bungled.value);
 
-                        loginSuccess(matches[1]);
+                                resolve();
+                            }
+                        });
                     }
                 });
             }, 100);
         });
-    };
-
-    var loginChrome = function(deferred) {
-        var stop = $interval(function() {
-            chrome.cookies.get({url: 'https://www.bungie.net', name: 'bungleme'}, function(bungleme) {
-                if (!bungleme) {
-                    return;
-                }
-
-                chrome.cookies.get({url: 'https://www.bungie.net', name: 'bungled'}, function(bungled) {
-                    if (bungled) {
-                        $interval.cancel(stop);
-                        deferred.resolve();
-
-                        loginSuccess(bungled.value);
-                    }
-                });
-            });
-        }, 100);
     };
 
     this.isAuthorized = function() {
@@ -63,9 +65,7 @@ var AuthService = function($q, $rootScope, $interval) {
     this.logout = function() {
         return $q(function(resolve) {
             if (packmule.Platform.isMobile()) {
-                window.cookies.clear(function() {
-                    resolve();
-                });
+                packmule.Cookies.clear(resolve);
             } else if (packmule.Platform.isChrome()) {
                 var stop = $interval(function() {
                     chrome.cookies.get({url: 'https://www.bungie.net', name: 'bungleme'}, function(cookie) {
@@ -80,20 +80,38 @@ var AuthService = function($q, $rootScope, $interval) {
     };
 
     this.login = function(type) {
-        var d = $q.defer();
+        return $q(function(resolve, reject) {
+            if (typeof type == 'undefined') {
+                type = packmule.Platform.isChrome() ? 'chrome' : localStorage.getItem('AuthService:loginType')
+            }
 
-        if (this.isAuthorized()) {
-            d.resolve();
-            return d.promise;
-        }
+            if (self.isAuthorized()) {
+                resolve();
+                return;
+            }
 
-        if (type == 'chrome') {
-            loginChrome(d);
-        } else {
-            loginMobile(d, type);
-        }
+            var promise;
 
-        return d.promise;
+            switch (type) {
+                case 'chrome':
+                    promise = loginChrome();
+                    break;
+                case 'Psnid':
+                case 'Wlid':
+                    promise = loginMobile(type);
+                    break;
+            }
+
+            if (promise) {
+                promise.then(function() {
+                    localStorage.setItem('AuthService:loginType', type);
+                    resolve();
+                },  reject);
+                return promise;
+            } else {
+                reject();
+            }
+        });
     };
 };
 

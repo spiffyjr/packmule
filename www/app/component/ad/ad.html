@@ -1,0 +1,16 @@
+<md-content class="md-padding">
+    <h1>Remove Advertisements</h1>
+    <div ng-if="!isOwned()">
+        <p>
+            Not a fan of advertisements and want to show your support? We've set up a product for
+            awesome people like you! This is an optional service that will remove
+            all third-party ads from the app.
+        </p>
+
+        <md-button class="md-accent" ng-click="removeAds()">
+            Purchase <span>$1.99</span>
+        </md-button>
+    </div>
+
+    <p ng-if="isOwned()">You already purchased removal of advertisements. Thank you for your support!</p>
+</md-content>

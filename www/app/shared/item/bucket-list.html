@@ -1,4 +1,5 @@
 <section ng-repeat="bucket in buckets track by bucket.id" ng-if="!bucket.hidden">
     <h2 class="bucket-header">{{::bucket.bucketName}}</h2>
+    <md-divider></md-divider>
     <item-list items="bucket.items"></item-list>
 </section>

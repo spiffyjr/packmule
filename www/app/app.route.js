@@ -6,6 +6,15 @@ angular.module('app')
                 abstract: true,
                 templateUrl: packmule.basedir + '/shared/layout/menu.html'
             })
+            .state('app.ad', {
+                url: '/ad',
+                views: {
+                    content: {
+                        controller: 'AdCtrl',
+                        templateUrl: packmule.basedir + '/component/ad/ad.html'
+                    }
+                }
+            })
             .state('app.login', {
                 url: '/login',
                 views: {

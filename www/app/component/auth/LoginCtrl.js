@@ -5,9 +5,7 @@ var LoginCtrl = function($scope, $state, AuthService) {
         });
     };
 
-    if (packmule.Platform.isChrome()) {
-        $scope.login('chrome');
-    }
+    $scope.login();
 };
 
 angular

@@ -15,10 +15,9 @@ var RightNavCtrl = function($scope, BungieService, ItemFilters) {
         return parts.join(' ');
     };
 
-    $scope.data = ItemFilters.defaults();
-
     $scope.clear = function() {
         ItemFilters.clear();
+        $scope.data = ItemFilters.defaults();
     };
 
     $scope.$on('BungieService:init', function() {
@@ -28,6 +27,7 @@ var RightNavCtrl = function($scope, BungieService, ItemFilters) {
         });
     });
 
+    $scope.data = ItemFilters.defaults();
     $scope.$watch('data', apply, true);
 };
 

@@ -52,6 +52,7 @@
     <script type="text/javascript" src="app/shared/platform.js"></script>
     <script type="text/javascript" src="app/shared/util.js"></script>
 
+    <script type="text/javascript" src="app/component/ad/AdCtrl.js"></script>
     <script type="text/javascript" src="app/component/ad/AdService.js"></script>
 
     <script type="text/javascript" src="app/component/auth/LoginCtrl.js"></script>

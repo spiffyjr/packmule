@@ -1,7 +1,7 @@
 'use strict';
 
 var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, BungieService) {
-    var MAX_VAULT_SPACE = 20;
+    var MAX_VAULT_SPACE = 24;
     var MAX_INVENTORY_SPACE = 9;
     var RATE_LIMIT = 1100;
 
@@ -62,9 +62,9 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
             if (!item) {
                 return;
             }
-            if (charId == 'vault' && self.checkVaultSpace(item) == 0) {
+            if (charId == 'vault' && self.checkVaultSpace(item) <= 0) {
                 needsSpace.push('vault');
-            } else if (charId != 'vault' && self.checkInventorySpace(item, charId) == 0) {
+            } else if (charId != 'vault' && self.checkInventorySpace(item, charId) <= 0) {
                 var character = BungieService.getCharacterById(charId);
 
                 needsSpace.push([

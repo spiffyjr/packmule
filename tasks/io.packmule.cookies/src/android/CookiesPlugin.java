@@ -24,6 +24,11 @@ public class CookiesPlugin extends CordovaPlugin
             callbackContext.success(CookieManager.getInstance().getCookie(args.getString(0)));
             return true;
         }
+        if ("clear".equals(action)) {
+            CookieManager.getInstance().removeAllCookie();
+            callbackContext.success();
+            return true;
+        }
         return false;
     }
 }

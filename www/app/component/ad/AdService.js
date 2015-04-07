@@ -2,7 +2,6 @@
 
 var AdService = function() {
     var adMobId = {};
-    var self = this;
 
     if (/(android)/i.test(navigator.userAgent)) {
         adMobId = {
@@ -62,10 +61,6 @@ var AdService = function() {
         // when ads are updated create/remove the ad banner
         // this can trigger multiple times so we have to be smart about double initialization
         store.when('ads').updated(function(p) {
-            if (!store.ready()) {
-                return;
-            }
-
             if (p.owned) {
                 removeBanner();
             } else {

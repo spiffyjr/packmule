@@ -1,15 +1,24 @@
 'use strict';
 
 var VaultCtrl = function($scope, BungieService) {
+    var loading = false;
+
     var load = function(charIds, vault) {
         if (!BungieService.account) {
             return;
         }
 
+        if (loading) {
+            return;
+        }
+
+        loading = true;
+
         BungieService
             .aggregateBuckets(charIds, vault)
             .then(function() {
                 $scope.buckets = BungieService.filterBuckets();
+                loading = false;
             });
     };
 
@@ -27,6 +36,8 @@ var VaultCtrl = function($scope, BungieService) {
     $scope.$on('ItemFilters:updated', function() {
         $scope.buckets = BungieService.filterBuckets();
     });
+
+    load();
 };
 
 angular
