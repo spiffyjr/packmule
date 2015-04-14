@@ -1,7 +1,7 @@
 {
   "name": "Packmule for Destiny",
   "description": "Destiny inventory manager with aggregate views, filtering, loadouts, and more!",
-  "version": "1.0.6",
+  "version": "1.0.10",
   "manifest_version": 2,
   "permissions": [
     "cookies",
@@ -13,7 +13,7 @@
     "persistent": false
   },
   "browser_action": {
-    "default_icon": "asset/img/ionic.png",
+    "default_icon": "asset/img/icon.png",
     "default_title": "Destiny Packmule"
   }
 }

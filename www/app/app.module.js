@@ -21,6 +21,7 @@ angular.module(
     [
         'packmule.cordova',
         //'ionic',
+        //'react',
 
         'hmTouchEvents',
         'ngAnimate',
@@ -56,7 +57,7 @@ angular.module(
 
             $rootScope.$on('$stateChangeSuccess',
                 function(event, toState) {
-                    window.analytics.trackView(toState);
+                    window.analytics.trackView(toState.name);
                 });
         }
     }]);

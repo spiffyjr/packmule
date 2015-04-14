@@ -16,11 +16,13 @@
     <script type="text/javascript" src="asset/js/thenBy.js"></script>
     <script type="text/javascript" src="asset/lib/hammerjs/hammer.js"></script>
     <script type="text/javascript" src="asset/lib/lodash/lodash.js"></script>
+    <script type="text/javascript" src="asset/lib/react/react.js"></script>
 
     <script type="text/javascript" src="asset/lib/angular/angular.js"></script>
     <script type="text/javascript" src="asset/lib/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="asset/lib/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="asset/lib/angular-hammer/angular-hammer.js"></script>
+    <script type="text/javascript" src="asset/lib/ngReact/ngReact.js"></script>
     <script type="text/javascript" src="asset/lib/angular-sanitize/angular-sanitize.js"></script>
     <script type="text/javascript" src="asset/lib/angular-ui-router/release/angular-ui-router.js"></script>
 

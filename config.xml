@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="io.packmule.destiny" version="1.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.packmule.destiny" version="1.0.10" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Packmule for Destiny</name>
   <description>Inventory management for Destiny!</description>
   <author email="contact@packmule.io" href="https://packmule.io/">Spiffy Applications</author>

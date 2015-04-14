@@ -1,4 +1,4 @@
-var MenuCtrl = function($scope, $state, $mdSidenav, $mdMedia, AuthService, BungieService) {
+var MenuCtrl = function($scope, $state, $http, $mdSidenav, $mdMedia, AuthService, BungieService) {
     $scope.$on('BungieService:init', function() {
         var availablePlatforms = _.values(BungieService.memberIds);
         $scope.hasPsn = availablePlatforms.indexOf(2) > -1;
@@ -54,4 +54,4 @@ var MenuCtrl = function($scope, $state, $mdSidenav, $mdMedia, AuthService, Bungi
 
 angular
     .module('app.layout')
-    .controller('MenuCtrl', ['$scope', '$state', '$mdSidenav', '$mdMedia', 'AuthService', 'BungieService', MenuCtrl]);
+    .controller('MenuCtrl', ['$scope', '$state', '$http', '$mdSidenav', '$mdMedia', 'AuthService', 'BungieService', MenuCtrl]);

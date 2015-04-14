@@ -1,7 +1,9 @@
 'use strict';
 
 var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, BungieService) {
-    var MAX_VAULT_SPACE = 24;
+    var MAX_VAULT_SPACE_ARMOR = 24;
+    var MAX_VAULT_SPACE_GENERAL = 24;
+    var MAX_VAULT_SPACE_WEAPON = 36;
     var MAX_INVENTORY_SPACE = 9;
     var RATE_LIMIT = 1100;
 
@@ -229,13 +231,23 @@ var ItemService = function($q, $rootScope, $timeout, AuthService, BungieClient, 
 
         _.forEach(BungieService.buckets, function(bucket) {
             _.forEach(bucket.items, function(bucketItem) {
-                if (!bucketItem.charId && bucketItem.itemType == item.itemType ) {
+                if (!bucketItem.charId && bucketItem.itemType == item.itemType) {
                     count++;
                 }
             });
         });
 
-        return MAX_VAULT_SPACE - count;
+        var space = MAX_VAULT_SPACE_GENERAL;
+        switch (item.itemType) {
+            case 2:
+                space = MAX_VAULT_SPACE_ARMOR;
+                break;
+            case 3:
+                space = MAX_VAULT_SPACE_WEAPON;
+                break;
+        }
+
+        return space - count;
     };
 
     this.equipItem = function(item, equipOnCharId) {

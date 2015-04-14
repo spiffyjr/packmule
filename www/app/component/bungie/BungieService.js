@@ -134,6 +134,11 @@ var BungieService = function($q, $rootScope, $http, $filter, BungieClient, ItemF
         }
 
         var itemDef = itemDefs[item.itemHash];
+
+        if (!itemDef) {
+            return null;
+        }
+
         var newItem = {
             id: _.uniqueId('i:'),
             charId: (charId ? charId : null),
