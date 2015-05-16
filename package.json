@@ -24,9 +24,13 @@
       "locator": "https://github.com/danwilson/google-analytics-plugin.git"
     },
     "org.apache.cordova.inappbrowser",
-    "com.google.cordova.admob"
+    "com.google.cordova.admob",
+    "org.apache.cordova.splashscreen"
   ],
   "dependencies": {
     "angular-sanitize": "^1.3.15"
-  }
+  },
+  "cordovaPlatforms": [
+    "android"
+  ]
 }

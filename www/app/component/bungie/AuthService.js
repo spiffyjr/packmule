@@ -21,6 +21,7 @@ var AuthService = function($q, $rootScope, $interval) {
                 }
                 var stop = $interval(function() {
                     win.executeScript({code: 'document.cookie'}, function(cookie) {
+                        console.log(cookie);
                         var matches;
                         if (matches = cookie[0].match(/bungled=(\d+)/)) {
                             $interval.cancel(stop);
@@ -97,7 +98,7 @@ var AuthService = function($q, $rootScope, $interval) {
                     promise = loginChrome();
                     break;
                 case 'Psnid':
-                case 'Wlid':
+                case 'Xuid':
                     promise = loginMobile(type);
                     break;
             }

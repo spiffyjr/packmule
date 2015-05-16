@@ -28,9 +28,7 @@
 
     <script type="text/javascript" src="asset/lib/angular-material/angular-material.js"></script>
 
-    <!--<script type="text/javascript" src="asset/js/angular-material.js"></script>
-
-    <script type="text/javascript" src="asset/lib/ionic/release/js/ionic.js"></script>
+    <!--<script type="text/javascript" src="asset/lib/ionic/release/js/ionic.js"></script>
     <script type="text/javascript" src="asset/lib/ionic/release/js/ionic-angular.js"></script>-->
 
     <script type="text/javascript" src="cordova.js"></script>

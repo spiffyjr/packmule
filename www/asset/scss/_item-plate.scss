@@ -82,16 +82,15 @@
     }
 
     .icon {
-      height: 32px;
-      width: 32px;
-      padding: 4px;
+      height: 28px;
+      width: 28px;
       vertical-align: middle;
     }
   }
 
   .footer {
     background: rgba(240,240,240,0.95);
-    padding: 5px;
+    padding: 2px 2px 0 2px;
     text-align: right;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -133,8 +132,8 @@
     }
 
     .icon {
-      height: 18px;
-      width: 18px;
+      height: 16px;
+      width: 16px;
       vertical-align: middle;
     }
   }
