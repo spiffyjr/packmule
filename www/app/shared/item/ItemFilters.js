@@ -31,7 +31,7 @@ var ItemFilters = function($rootScope) {
         name: '',
         category: {
             armor: true,
-            other: false,
+            other: true,
             vanity: true,
             weapons: true
         },
@@ -47,9 +47,9 @@ var ItemFilters = function($rootScope) {
         quality: {
             exotic: true,
             legendary: true,
-            rare: false,
-            uncommon: false,
-            common: false
+            rare: true,
+            uncommon: true,
+            common: true
         },
         isEquipped: false,
         isGridOpen: false,
@@ -137,7 +137,10 @@ angular
     })
     .filter('itemTier', function() {
         return function(item, quality) {
-            if (quality[item.tierTypeName.toLocaleLowerCase()] != true) {
+            if (!item.tierTypeName) {
+                return item;
+            }
+            if (quality[item.tierTypeName.toLowerCase()] != true) {
                 item.hidden = true;
             }
             return item;
