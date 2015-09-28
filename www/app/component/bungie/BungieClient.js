@@ -67,6 +67,7 @@ var BungieClient = function($rootScope, $q, packmuleHttp, AuthService) {
                 var headers = {
                     'content-type': 'application/json',
                     'x-requested-with': 'XMLHttpRequest',
+                    'x-api-key': '57c5ff5864634503a0340ffdfbeb20c0',
                     'x-csrf': AuthService.getCsrf()
                 };
 
