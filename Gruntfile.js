@@ -176,7 +176,7 @@ module.exports = function(grunt) {
         async.waterfall(
             [
                 function(next) {
-                    request.get({ url: 'http://www.bungie.net/platform/Destiny/Manifest/', json: true }, function (e, r, body) {
+                    request.get({ url: 'http://www.bungie.net/platform/Destiny/Manifest/', json: true, headers: { 'X-Api-Key': '57c5ff5864634503a0340ffdfbeb20c0' } }, function (e, r, body) {
                         var path = body.Response.mobileWorldContentPaths.en;
                         var dbname = path.split('/'); dbname = dbname[dbname.length - 1];
                         var dbpath = 'tmp/' + dbname;
